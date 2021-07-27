@@ -19,9 +19,11 @@ class CreatePostsTable extends Migration
             $table->string('title', 255);
             $table->string('slug', 512)->unique()->comment('slug for url');
             $table->integer('status')->default(0)->comment('status, 0: on going, 1: completed');
-            $table->string('alt_names', 256)->nullable();
+            $table->integer('is_new')->default(0)->comment('is_new, 1: new');
+            $table->text('alt_names')->nullable();
             $table->string('author', 256)->nullable();
             $table->string('artist', 256)->nullable();
+            $table->text('demographic')->nullable();
             $table->string('format', 256)->nullable();
             $table->text('description')->nullable();
             $table->bigInteger('views')->default(0);

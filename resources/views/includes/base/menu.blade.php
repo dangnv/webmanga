@@ -1,62 +1,55 @@
-<nav class="navbar has-shadow is-small">
-    <div class="container">
-        <div class="navbar-brand">
-            <a href="/" class="navbar-item" style="color: inherit !important; margin-right: auto;">
-                <img src="{{ asset('images/logos/Inuyasha_avatar.png') }}" width="25px" height="25px">
-                <span style="font-size: 20px; font-weight: 700;" class="ml-1">
-                    {{ env('APP_TITLE_PAGE') }}
-                </span>
-            </a>
-            <div class="navbar-end is-hidden-desktop">
-                <div class="navbar-item">
-                    <a class="navbar-item bd-navbar-item bd-navbar-item-base" href="http://mangarok.mobi">
-                        <img src="https://mangayeh.com/img/night-mode.svg">
-                    </a>
-                    <a href="/signin" class="navbar-item bd-navbar-item bd-navbar-item-base">
-                        <span>Login</span>
-                    </a>
-                    <a href="/signup" class="navbar-item bd-navbar-item bd-navbar-item-base">
-                        <span>Register</span>
-                    </a>
-                </div>
-            </div>
-            <div class="navbar-burger" data-target="mangayeh-menu" style="margin-left: 0;" onclick="this.classList.toggle('is-active');document.getElementById('mangayeh-menu').classList.toggle('is-active');">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+<div class="col-12">
+    <nav class="navbar navbar-expand-sm {{ $is_night_mode ? 'navbar-dark bg-dark' : 'navbar-light bg-light' }}">
+        <a class="navbar-brand" href="#">
+            <img src="{{ asset('images/logos/Inuyasha_avatar.png') }}" width="16px" height="16px">
+            {{ env('APP_TITLE_PAGE') }}
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            @if (!$is_night_mode)
+                <a class="turn-night-mode is-mobile-night-mode-btn" href="{{ route('night.home') }}">
+                    <img width="20px" height="20px" src="https://mangayeh.com/img/night-mode.svg">
+                </a>
+            @endif
+            <a class="is-mobile-login-btn" href="#">{{ trans('text.menu.btn_login') }}</a>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                @if ($is_night_mode)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('home') }}">{{ trans('text.menu.lbl_home') }}</a>
+                    </li>
+                @endif
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ trans('text.menu.lbl_latest') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ trans('text.menu.lbl_completed') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ trans('text.menu.lbl_newest') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ trans('text.menu.lbl_all') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ trans('text.menu.lbl_news') }}</a>
+                </li>
+            </ul>
         </div>
-        <div class="navbar-menu navbar-start" id="mangayeh-menu">
-            <div class="navbar-item">
-                <a href="/category/latest" class="navbar-item bd-navbar-item bd-navbar-item-base">
-                    <span>Latest</span>
-                </a>
-                <a href="/category/completed" class="navbar-item bd-navbar-item bd-navbar-item-base">
-                    <span>Completed</span>
-                </a>
-                <a href="/category/newest" class="navbar-item bd-navbar-item bd-navbar-item-base">
-                    <span>Newest</span>
-                </a>
-                <a href="/category/all" class="navbar-item bd-navbar-item bd-navbar-item-base">
-                    <span>All</span>
-                </a>
-                <a href="/news" class="navbar-item bd-navbar-item bd-navbar-item-base">
-                    <span>Article</span>
-                </a>
-                <a href="https://covicomic.com" class="navbar-item bd-navbar-item bd-navbar-item-base">
-                    <span>Comic</span>
-                </a>
-            </div>
+        <div class="collapse navbar-collapse box-login">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    @if ($is_night_mode)
+                        <a class="turn-night-mode nav-link" href="{{ route('night.home') }}">
+                            <img width="20px" height="20px" src="https://mangayeh.com/img/night-mode.svg">
+                        </a>
+                    @endif
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ trans('text.menu.btn_login') }}</a>
+                </li>
+            </ul>
         </div>
-        <div class="navbar-end is-hidden-mobile is-hidden-tablet-only">
-            <div class="navbar-end">
-                <a class="navbar-item bd-navbar-item bd-navbar-item-base" href="/signin">
-                    <span>Login</span>
-                </a>
-                <a class="navbar-item bd-navbar-item bd-navbar-item-base" href="/signup">
-                    <span>Register</span>
-                </a>
-            </div>
-        </div>
-    </div>
-</nav>
+    </nav>
+</div>
