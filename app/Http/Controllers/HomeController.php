@@ -29,4 +29,9 @@ class HomeController extends BaseController
             'completed_posts'   => $completedPosts
         ]);
     }
+
+    public function callback()
+    {
+        
+    }
 }
