@@ -21,6 +21,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     /*light*/
     Route::get('/', 'HomeController@index')->name('home');
 
-    Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
+    Route::get('/auth/redirect/{provider}', 'SocialController@redirect')->name('social.login');
     Route::get('/callback/{provider}', 'SocialController@callback');
 });
+
+Auth::routes();

@@ -5,14 +5,9 @@
             {{ env('APP_TITLE_PAGE') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            @if (!$is_night_mode)
-                <a class="turn-night-mode is-mobile-night-mode-btn" href="{{ route('night.home') }}">
-                    <img width="20px" height="20px" src="https://mangayeh.com/img/night-mode.svg">
-                </a>
-            @endif
-            <a class="is-mobile-login-btn" href="#">{{ trans('text.menu.btn_login') }}</a>
             <span class="navbar-toggler-icon"></span>
         </button>
+        <a class="navbar-toggler is-mobile-login-btn" href="#login" onclick="$('#modal_login').modal('show')">{{ trans('text.menu.btn_login') }}</a>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 @if ($is_night_mode)
@@ -46,9 +41,24 @@
                         </a>
                     @endif
                 </li>
+                @if (\Illuminate\Support\Facades\Auth::check())
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{ trans('text.menu.btn_login') }}</a>
+                    <a class="nav-link box-profile" href="#profile">
+                        <img src="{{ \Illuminate\Support\Facades\Auth::user()->avatar }}" />
+                        <span class="lbl-user-name">{{ \Illuminate\Support\Facades\Auth::user()->name }}</span>
+                    </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#logout" onclick="$('#form-logout').submit()">{{ trans('text.menu.btn_logout') }}</a>
+                    <form action="{{ route('logout') }}" method="post" id="form-logout">
+                        @csrf
+                    </form>
+                </li>
+                @else
+                <li class="nav-item">
+                    <a class="nav-link" href="#login" onclick="$('#modal_login').modal('show')">{{ trans('text.menu.btn_login') }}</a>
+                </li>
+                @endif
             </ul>
         </div>
     </nav>

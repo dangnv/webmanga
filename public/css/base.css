@@ -56,6 +56,10 @@ body>.row:last-child {
     color: rgba(0, 0, 0, .55);
 }
 
+.is-mobile-login-btn {
+    line-height: unset;
+}
+
 .is-mobile-night-mode-btn {
     right: 7em;
 }
@@ -235,4 +239,14 @@ body>.row:last-child {
     padding: 0;
     border: none;
     border-color: transparent;
+}
+
+.lbl-user-name {
+    font-size: 15px;
+}
+
+.box-profile img {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
 }

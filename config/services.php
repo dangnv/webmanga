@@ -34,4 +34,9 @@ return [
         'client_secret' => '1aK0H9CW7L96MWMzfXR3R5RH',
         'redirect' => '/callback/google',
     ],
+    'facebook' => [
+        'client_id' => '408056310610644',
+        'client_secret' => 'e68db5a989a05f151feacb2f2db82e45',
+        'redirect' => '/callback/facebook',
+    ],
 ];

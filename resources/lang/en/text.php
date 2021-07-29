@@ -11,6 +11,7 @@ return [
 
     "menu" => [
         "btn_login" => "Login",
+        "btn_logout" => "Logout",
         "lbl_home" => "Home",
         "lbl_latest" => "Latest",
         "lbl_completed" => "Completed",
