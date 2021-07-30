@@ -42,5 +42,8 @@ return [
     ],
     "newest" => [
         "title" => 'Newest manga'
+    ],
+    "all" => [
+        "title" => 'All manga'
     ]
 ];
