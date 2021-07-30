@@ -18,12 +18,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/', 'HomeController@index')->name('night.home');
 
         Route::get('/latest', 'HomeController@latest')->name('night.post.latest');
+        Route::get('/completed', 'HomeController@completed')->name('night.post.completed');
     });
 
     /*light*/
     Route::get('/', 'HomeController@index')->name('home');
 
     Route::get('/latest', 'HomeController@latest')->name('post.latest');
+    Route::get('/completed', 'HomeController@completed')->name('post.completed');
 
     Route::get('/auth/redirect/{provider}', 'SocialController@redirect')->name('social.login');
     Route::get('/callback/{provider}', 'SocialController@callback');

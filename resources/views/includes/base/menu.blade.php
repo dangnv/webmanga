@@ -1,6 +1,6 @@
 <div class="col-12">
     <nav class="navbar navbar-expand-sm {{ $is_night_mode ? 'navbar-dark bg-dark' : 'navbar-light bg-light' }}">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{ route(($is_night_mode ? 'night.' : '').'home') }}">
             <img src="{{ asset('images/logos/Inuyasha_avatar.png') }}" width="16px" height="16px">
             {{ env('APP_TITLE_PAGE') }}
         </a>
@@ -26,7 +26,7 @@
                     <a class="nav-link" href="{{ route(($is_night_mode ? 'night.' : '').'post.latest') }}">{{ trans('text.menu.lbl_latest') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{ trans('text.menu.lbl_completed') }}</a>
+                    <a class="nav-link" href="{{ route(($is_night_mode ? 'night.' : '').'post.completed') }}">{{ trans('text.menu.lbl_completed') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">{{ trans('text.menu.lbl_newest') }}</a>

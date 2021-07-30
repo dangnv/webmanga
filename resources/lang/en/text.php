@@ -29,11 +29,15 @@ return [
         "lbl_popular_post" => "Popular manga",
         "lbl_key" => "Keywords",
         "lbl_status_on_going" => "Ongoing",
+        "lbl_status_completed" => "Completed",
         "lbl_title_on_going" => "On going",
         "lbl_title_completed" => "Completed",
         "btn_night_mode" => "Night Mode",
     ],
     "latest" => [
         "title" => 'Latest manga'
+    ],
+    "completed" => [
+        "title" => 'Completed manga'
     ]
 ];

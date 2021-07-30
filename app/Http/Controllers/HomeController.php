@@ -63,4 +63,33 @@ class HomeController extends BaseController
             return view('post.latest', []);
         }
     }
+
+    /**
+     * @param Request $request
+     * @return View
+     */
+    public function completed(Request $request)
+    {
+        try {
+            $itemPerPage = Post::ITEM_PER_PAGE;
+            $page = $request->get('page') ?? Post::CURRENT_PAGE;
+            $limit = $itemPerPage * ($page - 1);
+            $totalPages = ceil(Post::count() / $itemPerPage);
+
+            $posts = Post::select('*', DB::raw('(select published_date from chapters where post_id = posts.id LIMIT 1) as published_date'))
+                        ->where('status', Post::STATUS_COMPLETED)
+                        ->orderBy('published_date', 'desc')
+                        ->skip($limit)
+                        ->take($itemPerPage)
+                        ->get();
+            return $this->renderView($request, 'post.completed', [
+                'posts'         => $posts,
+                'total_pages'   => $totalPages,
+                'current_page'  => $page
+            ]);
+        } catch (\Exception $exception) {
+            Log::error("Exception: {$exception->getMessage()}");
+            return view('post.completed', []);
+        }
+    }
 }
