@@ -39,5 +39,8 @@ return [
     ],
     "completed" => [
         "title" => 'Completed manga'
+    ],
+    "newest" => [
+        "title" => 'Newest manga'
     ]
 ];

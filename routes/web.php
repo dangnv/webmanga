@@ -19,6 +19,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         Route::get('/latest', 'HomeController@latest')->name('night.post.latest');
         Route::get('/completed', 'HomeController@completed')->name('night.post.completed');
+        Route::get('/newest', 'HomeController@newest')->name('night.post.newest');
     });
 
     /*light*/
@@ -26,6 +27,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     Route::get('/latest', 'HomeController@latest')->name('post.latest');
     Route::get('/completed', 'HomeController@completed')->name('post.completed');
+    Route::get('/newest', 'HomeController@newest')->name('post.newest');
 
     Route::get('/auth/redirect/{provider}', 'SocialController@redirect')->name('social.login');
     Route::get('/callback/{provider}', 'SocialController@callback');
