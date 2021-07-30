@@ -32,5 +32,8 @@ return [
         "lbl_title_on_going" => "On going",
         "lbl_title_completed" => "Completed",
         "btn_night_mode" => "Night Mode",
+    ],
+    "latest" => [
+        "title" => 'Latest manga'
     ]
 ];

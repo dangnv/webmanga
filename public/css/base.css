@@ -250,3 +250,15 @@ body>.row:last-child {
     width: 30px;
     height: 30px;
 }
+
+.box-navigation {
+    text-align: center;
+    justify-content: center;
+}
+
+@media screen and (min-width: 1408px) {
+    body {
+        max-width: 1344px;
+        margin: auto;
+    }
+}

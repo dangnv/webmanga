@@ -19,6 +19,9 @@ class Post extends Model
     const STATUS_NEW        = 1;
     const STATUS_NOT_NEW    = 0;
 
+    const ITEM_PER_PAGE = 20;
+    const CURRENT_PAGE  = 1;
+
     public function tags()
     {
         return $this->hasMany(PostTag::class, 'post_id', 'id');

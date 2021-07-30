@@ -16,7 +16,7 @@
                     </li>
                 @endif
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{ trans('text.menu.lbl_latest') }}</a>
+                    <a class="nav-link" href="{{ route('post.latest') }}">{{ trans('text.menu.lbl_latest') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">{{ trans('text.menu.lbl_completed') }}</a>
