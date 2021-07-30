@@ -7,7 +7,14 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-toggler is-mobile-login-btn" href="#login" onclick="$('#modal_login').modal('show')">{{ trans('text.menu.btn_login') }}</a>
+        @if (\Illuminate\Support\Facades\Auth::check())
+            <a class="navbar-toggler is-mobile-login-btn box-profile" href="#profile">
+                <img src="{{ \Illuminate\Support\Facades\Auth::user()->avatar }}" />
+                <span class="lbl-user-name">{{ \Illuminate\Support\Facades\Auth::user()->name }}</span>
+            </a>
+        @else
+            <a class="navbar-toggler is-mobile-login-btn" href="#login" onclick="$('#modal_login').modal('show')">{{ trans('text.menu.btn_login') }}</a>
+        @endif
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 @if ($is_night_mode)
@@ -16,7 +23,7 @@
                     </li>
                 @endif
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('post.latest') }}">{{ trans('text.menu.lbl_latest') }}</a>
+                    <a class="nav-link" href="{{ route(($is_night_mode ? 'night.' : '').'post.latest') }}">{{ trans('text.menu.lbl_latest') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">{{ trans('text.menu.lbl_completed') }}</a>
@@ -34,13 +41,13 @@
         </div>
         <div class="collapse navbar-collapse box-login">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
+<!--                <li class="nav-item">
                     @if ($is_night_mode)
                         <a class="turn-night-mode nav-link" href="{{ route('night.home') }}">
                             <img width="20px" height="20px" src="https://mangayeh.com/img/night-mode.svg">
                         </a>
                     @endif
-                </li>
+                </li>-->
                 @if (\Illuminate\Support\Facades\Auth::check())
                 <li class="nav-item">
                     <a class="nav-link box-profile" href="#profile">

@@ -44,13 +44,13 @@
                     $previous = ($current_page <= 1) ? 1 : ($current_page - 1);
                     $next = ($current_page >= $total_pages) ? $total_pages : ($current_page +1);
                 @endphp
-                <li class="page-item {{ $current_page <= 1 ? 'disabled' : '' }}"><a class="page-link" href="{{ route('post.latest', ['page' => $previous]) }}"> < </a></li>
+                <li class="page-item {{ $current_page <= 1 ? 'disabled' : '' }}"><a class="page-link" href="{{route(($is_night_mode ? 'night.' : '').'post.latest', ['page' => $previous]) }}"> < </a></li>
                 @for ($page = $start; $page < ($start + 4); $page++)
                     @if ($page <= $total_pages)
-                        <li class="page-item {{ $page == $current_page ? 'active' : '' }}"><a class="page-link" href="{{ route('post.latest', ['page' => $page]) }}">{{ $page }}</a></li>
+                        <li class="page-item {{ $page == $current_page ? 'active' : '' }}"><a class="page-link" href="{{route(($is_night_mode ? 'night.' : '').'post.latest', ['page' => $page]) }}">{{ $page }}</a></li>
                     @endif
                 @endfor
-                <li class="page-item {{ $current_page >= $total_pages ? 'disabled' : '' }}"><a class="page-link" href="{{ route('post.latest', ['page' => $next]) }}"> > </a></li>
+                <li class="page-item {{ $current_page >= $total_pages ? 'disabled' : '' }}"><a class="page-link" href="{{route(($is_night_mode ? 'night.' : '').'post.latest', ['page' => $next]) }}"> > </a></li>
             </ul>
         </nav>
     </div>

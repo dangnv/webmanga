@@ -8,11 +8,11 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-6">
-                        <a class="btn btn-primary facebook" href="{{ route('social.login', ['provider' => 'facebook']) }}"><span>Login with Facebook</span> <i class="fa fa-facebook"></i></a>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <a class="btn btn-primary facebook form-control" href="{{ route('social.login', ['provider' => 'facebook']) }}"><span>Login with Facebook</span> <i class="fa fa-facebook"></i></a>
                     </div>
-                    <div class="col-6">
-                        <a class="btn btn-danger google" href="{{ route('social.login', ['provider' => 'google']) }}"><span>Login with Google</span> <i class="fa fa-google-plus"></i></a>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <a class="btn btn-danger google form-control" href="{{ route('social.login', ['provider' => 'google']) }}"><span>Login with Google</span> <i class="fa fa-google-plus"></i></a>
                     </div>
                 </div>
             </div>

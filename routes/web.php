@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::group(['prefix' => 'night-mode'], function () {
         Route::get('/', 'HomeController@index')->name('night.home');
+
+        Route::get('/latest', 'HomeController@latest')->name('night.post.latest');
     });
 
     /*light*/

@@ -51,13 +51,13 @@ body>.row:last-child {
     width: fit-content;
     position: absolute;
     right: 4em;
-    height: 1.25em;
-    line-height: 1.25em;
-    color: rgba(0, 0, 0, .55);
-}
-
-.is-mobile-login-btn {
-    line-height: unset;
+    top: 5px;
+    color: rgba(0, 0, 0, .55) !important;
+    display: inline-block;
+    padding: .3125rem 0 .3125rem 0;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
 }
 
 .is-mobile-night-mode-btn {
@@ -254,6 +254,11 @@ body>.row:last-child {
 .box-navigation {
     text-align: center;
     justify-content: center;
+}
+
+#modal_login .modal-body .row .col-xs-12 {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 @media screen and (min-width: 1408px) {
