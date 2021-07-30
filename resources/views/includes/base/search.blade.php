@@ -1,4 +1,4 @@
-@if (!$is_night_mode)
+@if (!$is_night_mode && isset($is_home))
     <div class="row columns is-mobile text-center">
         <div class="col-12 column box-night-mode">
             <a class="turn-night-mode box has-text-centered" href="{{ route('night.home') }}">

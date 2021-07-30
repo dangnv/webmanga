@@ -19,7 +19,7 @@ class Post extends Model
     const STATUS_NEW        = 1;
     const STATUS_NOT_NEW    = 0;
 
-    const ITEM_PER_PAGE = 20;
+    const ITEM_PER_PAGE = 40;
     const CURRENT_PAGE  = 1;
 
     public function tags()

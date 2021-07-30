@@ -1,3 +1,4 @@
+@if (isset($tags))
 <div class="row sidebar-keywords">
     <div class="row col-12">
         <h2>{{ trans('text.home.lbl_key') }}</h2>
@@ -8,6 +9,8 @@
         @endforeach
     </div>
 </div>
+@endif
+@if (isset($categories))
 <div class="row sidebar-categories">
     <div class="row">
         <h2>{{ trans('text.home.lbl_genres') }}</h2>
@@ -20,6 +23,8 @@
         @endforeach
     </div>
 </div>
+@endif
+@if (isset($popular_posts))
 <div class="row sidebar-popular-posts">
     <div class="row col-12">
         <h2>{{ trans('text.home.lbl_popular_post') }}</h2>
@@ -53,3 +58,4 @@
         </a>
     @endforeach
 </div>
+@endif

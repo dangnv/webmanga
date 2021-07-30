@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +32,7 @@ class HomeController extends BaseController
             ->get();
 
         return $this->renderView($request, 'home.index', [
+            'is_home'           => true,
             'on_going_posts'    => $onGoingPosts,
             'completed_posts'   => $completedPosts
         ]);
@@ -54,13 +56,16 @@ class HomeController extends BaseController
                         ->take($itemPerPage)
                         ->get();
             return $this->renderView($request, 'post.latest', [
+                'is_show_tags'  => false,
                 'posts'         => $posts,
                 'total_pages'   => $totalPages,
                 'current_page'  => $page
             ]);
         } catch (\Exception $exception) {
             Log::error("Exception: {$exception->getMessage()}");
-            return view('post.latest', []);
+            return view('post.latest', [
+                'is_show_tags' => false
+            ]);
         }
     }
 
@@ -83,13 +88,16 @@ class HomeController extends BaseController
                         ->take($itemPerPage)
                         ->get();
             return $this->renderView($request, 'post.completed', [
+                'is_show_tags'  => false,
                 'posts'         => $posts,
                 'total_pages'   => $totalPages,
                 'current_page'  => $page
             ]);
         } catch (\Exception $exception) {
             Log::error("Exception: {$exception->getMessage()}");
-            return view('post.completed', []);
+            return view('post.completed', [
+                'is_show_tags'  => false,
+            ]);
         }
     }
 
@@ -112,13 +120,16 @@ class HomeController extends BaseController
                         ->take($itemPerPage)
                         ->get();
             return $this->renderView($request, 'post.newest', [
+                'is_show_tags'  => false,
                 'posts'         => $posts,
                 'total_pages'   => $totalPages,
                 'current_page'  => $page
             ]);
         } catch (\Exception $exception) {
             Log::error("Exception: {$exception->getMessage()}");
-            return view('post.newest', []);
+            return view('post.newest', [
+                'is_show_tags'  => false
+            ]);
         }
     }
 
@@ -140,13 +151,49 @@ class HomeController extends BaseController
                         ->take($itemPerPage)
                         ->get();
             return $this->renderView($request, 'post.all', [
+                'is_show_tags'  => false,
                 'posts'         => $posts,
                 'total_pages'   => $totalPages,
                 'current_page'  => $page
             ]);
         } catch (\Exception $exception) {
             Log::error("Exception: {$exception->getMessage()}");
-            return view('post.all', []);
+            return view('post.all', [
+                'is_show_tags'  => false
+            ]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return View
+     */
+    public function news(Request $request)
+    {
+        try {
+            $itemPerPage = Article::ITEM_PER_PAGE;
+            $page = $request->get('page') ?? Article::CURRENT_PAGE;
+            $limit = $itemPerPage * ($page - 1);
+            $totalPages = ceil(Article::count() / $itemPerPage);
+
+            $news = Article::select('*')
+                        ->orderBy('public_at', 'desc')
+                        ->skip($limit)
+                        ->take($itemPerPage)
+                        ->get();
+            return $this->renderView($request, 'news.index', [
+                'is_show_categories'    => false,
+                'is_show_tags'          => false,
+                'news'                  => $news,
+                'total_pages'           => $totalPages,
+                'current_page'          => $page
+            ]);
+        } catch (\Exception $exception) {
+            Log::error("Exception: {$exception->getMessage()}");
+            return view('news.index', [
+                'is_show_categories'    => false,
+                'is_show_tags'          => false
+            ]);
         }
     }
 }

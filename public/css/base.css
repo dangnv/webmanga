@@ -136,6 +136,17 @@ body>.row:last-child {
     border-radius: 6px;
 }
 
+.box-news {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.box-news img {
+    width: 160px !important;
+    height: 90px !important;
+    border-radius: 6px;
+}
+
 .content-part .mtitle,
 .sidebar-popular-posts .mtitle {
     font-size: 14px;
@@ -259,6 +270,11 @@ body>.row:last-child {
 #modal_login .modal-body .row .col-xs-12 {
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.article-lst {
+    background-color: transparent;
+    padding: 0;
 }
 
 @media screen and (min-width: 1408px) {

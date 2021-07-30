@@ -35,7 +35,7 @@
                     <a class="nav-link" href="{{ route(($is_night_mode ? 'night.' : '').'post.all') }}">{{ trans('text.menu.lbl_all') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{ trans('text.menu.lbl_news') }}</a>
+                    <a class="nav-link" href="{{ route(($is_night_mode ? 'night.' : '').'news.index') }}">{{ trans('text.menu.lbl_news') }}</a>
                 </li>
             </ul>
         </div>
