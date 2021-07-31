@@ -5,7 +5,7 @@
     </div>
     @include('includes._lst_posts', ['posts' => $on_going_posts])
     <div class="row col-12">
-        <button class="form-control btn btn-primary btn-show-more">{{ trans('text.global.btn_see_more') }}</button>
+        <a href="{{ route(($is_night_mode ? 'night.' : '').'post.latest') }}" class="form-control btn btn-primary btn-show-more">{{ trans('text.global.btn_see_more') }}</a>
     </div>
 
     <div class="row col-12">

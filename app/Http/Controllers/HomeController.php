@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -159,6 +161,57 @@ class HomeController extends BaseController
         } catch (\Exception $exception) {
             Log::error("Exception: {$exception->getMessage()}");
             return view('post.all', [
+                'is_show_tags'  => false
+            ]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param string $category
+     * @return View
+     */
+    public function postByCategory($slug, Request $request)
+    {
+        try {
+            $category = Category::where('slug', $slug)->get();
+            $is_show_popular_posts = true;
+            if (!count($category)) {
+                $itemPerPage = 20;
+                $totalPages  = 0;
+                $page        = 0;
+                $category    = [];
+                $is_show_popular_posts = false;
+                $posts = Post::select('*', DB::raw('(select published_date from chapters where post_id = posts.id LIMIT 1) as published_date'))
+                    ->whereIn('id', PostCategory::select('post_id')->where('category_id', DB::raw('(select id from categories LIMIT 1)'))->pluck('post_id'))
+                    ->orderBy('published_date', 'desc')
+                    ->take($itemPerPage)
+                    ->get();
+            } else {
+                $category = $category[0];
+                $itemPerPage = Post::ITEM_PER_PAGE;
+                $page = $request->get('page') ?? Post::CURRENT_PAGE;
+                $limit = $itemPerPage * ($page - 1);
+                $totalPages = ceil(Post::whereIn('id', PostCategory::select('post_id')->where('category_id', $category->id)->pluck('post_id'))->count() / $itemPerPage);
+
+                $posts = Post::select('*', DB::raw('(select published_date from chapters where post_id = posts.id LIMIT 1) as published_date'))
+                    ->whereIn('id', PostCategory::select('post_id')->where('category_id', $category->id)->pluck('post_id'))
+                    ->orderBy('published_date', 'desc')
+                    ->skip($limit)
+                    ->take($itemPerPage)
+                    ->get();
+            }
+            return $this->renderView($request, 'post.category', [
+                'is_show_tags'  => false,
+                'category'      => $category,
+                'posts'         => $posts,
+                'total_pages'   => $totalPages,
+                'current_page'  => $page,
+                'is_show_popular_posts'  => $is_show_popular_posts,
+            ]);
+        } catch (\Exception $exception) {
+            Log::error("Exception: {$exception->getMessage()}");
+            return view('post.category', [
                 'is_show_tags'  => false
             ]);
         }

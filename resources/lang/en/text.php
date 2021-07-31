@@ -48,5 +48,9 @@ return [
     ],
     "news" => [
         "title" => 'Latest'
+    ],
+    "category" => [
+        "title" => 'Category',
+        "recommend" => "Recommend for you"
     ]
 ];

@@ -32,6 +32,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/completed', 'HomeController@completed')->name('post.completed');
     Route::get('/newest', 'HomeController@newest')->name('post.newest');
     Route::get('/all', 'HomeController@all')->name('post.all');
+    Route::get('/genre/{slug}', 'HomeController@postByCategory')->name('post.category');
 
     Route::get('/news', 'HomeController@news')->name('news.index');
 

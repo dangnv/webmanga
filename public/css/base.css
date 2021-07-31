@@ -208,14 +208,18 @@ body>.row:last-child {
 
 .sidebar-categories a {
     font-size: 0.8rem;
-    padding-left: 0;
-    padding-right: 0;
+    width: 100%;
+    text-align: left;
 }
 
 .btn-show-more {
     background-color: #eef6fc;
     color: #1d72aa;
     border: transparent;
+}
+
+.footer {
+    padding: 3rem 1.5rem 6rem;
 }
 
 .footer .card {
@@ -275,6 +279,10 @@ body>.row:last-child {
 .article-lst {
     background-color: transparent;
     padding: 0;
+}
+
+.not-found-category {
+    justify-content: center;
 }
 
 @media screen and (min-width: 1408px) {

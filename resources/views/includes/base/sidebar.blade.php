@@ -18,7 +18,7 @@
     <div class="row">
         @foreach($categories as $cate)
             <div class="col-6">
-                <a class="btn {{ $is_night_mode ? 'btn-dark' : 'btn-light' }}" href="#category">{{ $cate->name }}</a>
+                <a class="btn {{ $is_night_mode ? 'btn-dark' : 'btn-light' }}" href="{{ route('post.category', ['slug' => $cate->slug]) }}">{{ $cate->name }}</a>
             </div>
         @endforeach
     </div>
