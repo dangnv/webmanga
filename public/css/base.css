@@ -291,3 +291,16 @@ body>.row:last-child {
         margin: auto;
     }
 }
+
+@media only screen and (max-width: 768px) {
+    .box-news img {
+        width: 112px !important;
+        height: 75px !important;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .box-news .comtent-news {
+        padding-left: 0;
+    }
+}

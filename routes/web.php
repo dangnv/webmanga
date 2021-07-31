@@ -22,7 +22,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/newest', 'HomeController@newest')->name('night.post.newest');
         Route::get('/all', 'HomeController@all')->name('night.post.all');
 
-        Route::get('/news', 'HomeController@news')->name('night.news');
+        Route::get('/news', 'HomeController@news')->name('night.news.index');
     });
 
     /*light*/

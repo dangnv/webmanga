@@ -243,7 +243,7 @@ class HomeController extends BaseController
             ]);
         } catch (\Exception $exception) {
             Log::error("Exception: {$exception->getMessage()}");
-            return view('news.index', [
+            $this->renderView($request, 'news.index', [
                 'is_show_categories'    => false,
                 'is_show_tags'          => false
             ]);

@@ -16,7 +16,7 @@
             <div class="image">
                 <img src="{{ $item->thumbnail }}">
             </div>
-            <div class="col-8">
+            <div class="col-xs-12 col-sm-8 col-md-8 comtent-news">
                 <div class="media-content">
                     <div class="content">
                         <div class="mtitle">
