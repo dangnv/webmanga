@@ -274,12 +274,20 @@ class HomeController extends BaseController
     public function detailPost ($slug, Request $request)
     {
         $post = Post::getPostBySlug($slug);
-
-        return $this->renderView($request, 'post.detail', [
+        $data = [
             'is_show_popular_posts' => false,
             'is_show_tags' => false,
             'post' => $post
-        ]);
+        ];
+
+        if (empty($post)) {
+            $data['recommend_posts'] = Post::select('*', DB::raw('(select published_date from chapters where post_id = posts.id LIMIT 1) as published_date'))
+                ->orderBy('published_date', 'desc')
+                ->take(20)
+                ->get();
+        }
+
+        return $this->renderView($request, 'post.detail', $data);
     }
 
     public function postComment(Request $request)
@@ -304,5 +312,22 @@ class HomeController extends BaseController
             Log::error("Exception post comment: {$exception->getMessage()}");
             return redirect()->back();
         }
+    }
+
+    public function detailChapter($post_slug, $chapter_slug, Request $request)
+    {
+        $post = Post::getPostBySlug($post_slug);
+        $chapter = Chapter::getChapterBySlug($chapter_slug);
+    }
+
+    /**
+     * @param Request $request
+     * @return View
+     */
+    public function profile(Request $request)
+    {
+        return $this->renderView($request, 'profile.index', [
+            'user' => Auth::user()
+        ]);
     }
 }

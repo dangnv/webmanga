@@ -1,0 +1,21 @@
+.content-profile .card-header {
+    justify-content: center;
+    text-align: center;
+}
+.content-profile .card-header p {
+    margin-bottom: 0;
+    font-size: 15px;
+}
+.content-profile .card-header p:first-child {
+    font-weight: 600;
+}
+
+.content-profile .card-body {
+    display: flex;
+}
+
+.content-profile .card-body .lst-comments,
+.content-profile .card-body .lst-bookmarks {
+    width: 50%;
+    text-align: center;
+}

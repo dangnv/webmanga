@@ -299,6 +299,18 @@ body>.row:last-child {
     }
 }
 
+@media only screen and (max-width: 693px) {
+    .box-login .nav-logout {
+        display: none;
+    }
+}
+
+@media (max-width: 615px) and (min-width: 579px) {
+    #navbarText {
+        font-size: 12px;
+    }
+}
+
 @media only screen and (max-width: 575px) {
     .box-news .comtent-news {
         padding-left: 0;

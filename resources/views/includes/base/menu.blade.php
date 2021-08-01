@@ -8,7 +8,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         @if (\Illuminate\Support\Facades\Auth::check())
-            <a class="navbar-toggler is-mobile-login-btn box-profile" href="#profile">
+            <a class="navbar-toggler is-mobile-login-btn box-profile" href="{{ route(($is_night_mode ? 'night.' : '').'profile.index') }}">
                 <img src="{{ \Illuminate\Support\Facades\Auth::user()->avatar }}" />
                 <span class="lbl-user-name">{{ \Illuminate\Support\Facades\Auth::user()->name }}</span>
             </a>
@@ -50,12 +50,12 @@
                 </li>-->
                 @if (\Illuminate\Support\Facades\Auth::check())
                 <li class="nav-item">
-                    <a class="nav-link box-profile" href="#profile">
+                    <a class="nav-link box-profile" href="{{ route(($is_night_mode ? 'night.' : '').'profile.index') }}">
                         <img src="{{ \Illuminate\Support\Facades\Auth::user()->avatar }}" />
                         <span class="lbl-user-name">{{ \Illuminate\Support\Facades\Auth::user()->name }}</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item nav-logout">
                     <a class="nav-link" href="#logout" onclick="$('#form-logout').submit()">{{ trans('text.menu.btn_logout') }}</a>
                     <form action="{{ route('logout') }}" method="post" id="form-logout">
                         @csrf

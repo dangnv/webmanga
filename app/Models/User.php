@@ -23,4 +23,14 @@ class User extends Authenticatable
         'provider_id',
         'avatar'
     ];
+
+    public function bookmark()
+    {
+        return $this->hasMany(Bookmark::class, 'user_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'user_id', 'id');
+    }
 }

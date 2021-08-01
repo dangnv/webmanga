@@ -13,4 +13,16 @@ class Chapter extends Model
     protected $fillable = ['title', 'slug', 'post_id', 'published_date'];
 
     const ITEM_PER_PAGE = 12;
+
+    /**
+     * @param $slug
+     * @return array|mixed
+     */
+    public static function getChapterBySlug($slug)
+    {
+        $chapter = Chapter::where('slug', $slug)->get();
+        if (count($chapter)) { return $chapter[0]; }
+
+        return  [];
+    }
 }

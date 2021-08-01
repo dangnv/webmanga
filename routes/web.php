@@ -25,6 +25,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/chapter/{post_slug}/{chapter_slug}', 'HomeController@detailChapter')->name('night.chapters.detail');
 
         Route::get('/news', 'HomeController@news')->name('night.news.index');
+
+        Route::get('/profile', 'HomeController@profile')->name('night.profile.index');
     });
 
     /*light*/
@@ -39,6 +41,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/chapter/{post_slug}/{chapter_slug}', 'HomeController@detailChapter')->name('chapters.detail');
 
     Route::get('/news', 'HomeController@news')->name('news.index');
+
+    Route::get('/profile', 'HomeController@profile')->name('profile.index');
 
     Route::get('/auth/redirect/{provider}', 'SocialController@redirect')->name('social.login');
     Route::get('/callback/{provider}', 'SocialController@callback');
