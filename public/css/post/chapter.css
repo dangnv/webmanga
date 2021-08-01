@@ -33,9 +33,13 @@
     text-align: right;
 }
 
-.box-list-chapters .form-control {
-    width: fit-content;
+.box-list-chapters > div {
+    width: 33.33333%;
+}
+
+.box-list-chapters >div button.form-control {
     cursor: pointer;
+    width: fit-content;
 }
 
 .box-list-images .image-chapter img {
