@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Chapter;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use \Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends BaseController
 {
@@ -36,7 +41,8 @@ class HomeController extends BaseController
         return $this->renderView($request, 'home.index', [
             'is_home'           => true,
             'on_going_posts'    => $onGoingPosts,
-            'completed_posts'   => $completedPosts
+            'completed_posts'   => $completedPosts,
+            'is_show_search'    => true
         ]);
     }
 
@@ -61,12 +67,14 @@ class HomeController extends BaseController
                 'is_show_tags'  => false,
                 'posts'         => $posts,
                 'total_pages'   => $totalPages,
-                'current_page'  => $page
+                'current_page'  => $page,
+                'is_show_search'=> true
             ]);
         } catch (\Exception $exception) {
             Log::error("Exception: {$exception->getMessage()}");
             return view('post.latest', [
-                'is_show_tags' => false
+                'is_show_tags'      => false,
+                'is_show_search'    => true
             ]);
         }
     }
@@ -93,12 +101,14 @@ class HomeController extends BaseController
                 'is_show_tags'  => false,
                 'posts'         => $posts,
                 'total_pages'   => $totalPages,
-                'current_page'  => $page
+                'current_page'  => $page,
+                'is_show_search'=> true
             ]);
         } catch (\Exception $exception) {
             Log::error("Exception: {$exception->getMessage()}");
             return view('post.completed', [
-                'is_show_tags'  => false,
+                'is_show_tags'      => false,
+                'is_show_search'    => true
             ]);
         }
     }
@@ -125,12 +135,14 @@ class HomeController extends BaseController
                 'is_show_tags'  => false,
                 'posts'         => $posts,
                 'total_pages'   => $totalPages,
-                'current_page'  => $page
+                'current_page'  => $page,
+                'is_show_search'=> true
             ]);
         } catch (\Exception $exception) {
             Log::error("Exception: {$exception->getMessage()}");
             return view('post.newest', [
-                'is_show_tags'  => false
+                'is_show_tags'      => false,
+                'is_show_search'    => true
             ]);
         }
     }
@@ -156,12 +168,14 @@ class HomeController extends BaseController
                 'is_show_tags'  => false,
                 'posts'         => $posts,
                 'total_pages'   => $totalPages,
-                'current_page'  => $page
+                'current_page'  => $page,
+                'is_show_search'=> true
             ]);
         } catch (\Exception $exception) {
             Log::error("Exception: {$exception->getMessage()}");
             return view('post.all', [
-                'is_show_tags'  => false
+                'is_show_tags'      => false,
+                'is_show_search'    => true
             ]);
         }
     }
@@ -207,12 +221,14 @@ class HomeController extends BaseController
                 'posts'         => $posts,
                 'total_pages'   => $totalPages,
                 'current_page'  => $page,
+                'is_show_search'=> true,
                 'is_show_popular_posts'  => $is_show_popular_posts,
             ]);
         } catch (\Exception $exception) {
             Log::error("Exception: {$exception->getMessage()}");
             return view('post.category', [
-                'is_show_tags'  => false
+                'is_show_tags'      => false,
+                'is_show_search'    => true
             ]);
         }
     }
@@ -247,6 +263,46 @@ class HomeController extends BaseController
                 'is_show_categories'    => false,
                 'is_show_tags'          => false
             ]);
+        }
+    }
+
+    /**
+     * @param $slug
+     * @param Request $request
+     * @return View
+     */
+    public function detailPost ($slug, Request $request)
+    {
+        $post = Post::getPostBySlug($slug);
+
+        return $this->renderView($request, 'post.detail', [
+            'is_show_popular_posts' => false,
+            'is_show_tags' => false,
+            'post' => $post
+        ]);
+    }
+
+    public function postComment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'content' => 'required',
+            'post_id' => 'required',
+            'user_id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator, 'comment');
+        }
+
+        $data = $request->all();
+        unset($data['_token']);
+
+        try {
+            Comment::create($data);
+
+            return redirect()->back();
+        } catch (\Exception $exception) {
+            Log::error("Exception post comment: {$exception->getMessage()}");
+            return redirect()->back();
         }
     }
 }

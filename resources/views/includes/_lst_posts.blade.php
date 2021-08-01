@@ -1,5 +1,5 @@
 @foreach($posts as $post)
-    <div href="#" class="row col-xs-12 col-sm-12 col-md-12 col-lg-6 box-on-going">
+    <a href="{{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" class="row col-xs-12 col-sm-12 col-md-12 col-lg-6 box-on-going">
         <div class="image">
             <img src="{{ $post->thumbnail }}">
         </div>
@@ -27,5 +27,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </a>
 @endforeach

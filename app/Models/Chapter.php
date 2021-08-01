@@ -11,4 +11,6 @@ class Chapter extends Model
 
     protected $table = 'chapters';
     protected $fillable = ['title', 'slug', 'post_id', 'published_date'];
+
+    const ITEM_PER_PAGE = 12;
 }

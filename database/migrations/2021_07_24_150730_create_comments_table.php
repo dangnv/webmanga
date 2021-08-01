@@ -23,7 +23,7 @@ class CreateCommentsTable extends Migration
                 ->constrained('posts')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->unique(['user_id', 'post_id']);
+            $table->text('content');
             $table->timestamps();
         });
     }

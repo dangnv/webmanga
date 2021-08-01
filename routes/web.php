@@ -21,6 +21,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/completed', 'HomeController@completed')->name('night.post.completed');
         Route::get('/newest', 'HomeController@newest')->name('night.post.newest');
         Route::get('/all', 'HomeController@all')->name('night.post.all');
+        Route::get('/manga/{slug}', 'HomeController@detailPost')->name('night.post.detail');
+        Route::get('/chapter/{post_slug}/{chapter_slug}', 'HomeController@detailChapter')->name('night.chapters.detail');
 
         Route::get('/news', 'HomeController@news')->name('night.news.index');
     });
@@ -33,11 +35,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/newest', 'HomeController@newest')->name('post.newest');
     Route::get('/all', 'HomeController@all')->name('post.all');
     Route::get('/genre/{slug}', 'HomeController@postByCategory')->name('post.category');
+    Route::get('/manga/{slug}', 'HomeController@detailPost')->name('post.detail');
+    Route::get('/chapter/{post_slug}/{chapter_slug}', 'HomeController@detailChapter')->name('chapters.detail');
 
     Route::get('/news', 'HomeController@news')->name('news.index');
 
     Route::get('/auth/redirect/{provider}', 'SocialController@redirect')->name('social.login');
     Route::get('/callback/{provider}', 'SocialController@callback');
+
+    Route::post('/comment/post', 'HomeController@postComment')->name('comment.post');
 });
 
 Auth::routes();

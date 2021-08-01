@@ -1,4 +1,4 @@
-<div class="col-12">
+<div class="col-12" id="menu">
     <nav class="navbar navbar-expand-sm {{ $is_night_mode ? 'navbar-dark bg-dark' : 'navbar-light bg-light' }}">
         <a class="navbar-brand" href="{{ route(($is_night_mode ? 'night.' : '').'home') }}">
             <img src="{{ asset('images/logos/Inuyasha_avatar.png') }}" width="16px" height="16px">

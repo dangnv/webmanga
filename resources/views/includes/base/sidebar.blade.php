@@ -30,7 +30,7 @@
         <h2>{{ trans('text.home.lbl_popular_post') }}</h2>
     </div>
     @foreach($popular_posts as $post)
-        <a href="#" class="row col-12 box-post-detail">
+        <a href="{{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" class="row col-12 box-post-detail">
             <div class="image">
                 <img src="{{ $post->thumbnail }}">
             </div>

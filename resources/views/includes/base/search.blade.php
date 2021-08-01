@@ -8,6 +8,7 @@
         </div>
     </div>
 @endif
+@if (isset($is_show_search) && $is_show_search)
 <div class="row box-search">
     <div class="col-12 col-auto">
         <div class="input-group">
@@ -22,3 +23,4 @@
         </div>
     </div>
 </div>
+@endif

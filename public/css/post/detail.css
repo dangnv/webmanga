@@ -1,0 +1,124 @@
+.post-title-detail .box-info {
+    display: flex;
+}
+
+.post-title-detail .box-info .image {
+    margin-right: 1rem;
+}
+
+.post-title-detail .box-info .post-title h1.title {
+    font-size: 1.5rem;
+}
+
+.box-share-button {
+    position: absolute;
+    right: 0;
+}
+
+.box-share-button button:first-child {
+    margin-right: 0.5rem !important;
+}
+
+.post-comments h2,
+.post-overview h2 {
+    font-size: 1.25rem;
+}
+
+.post-overview table tbody tr td:first-child {
+    width: 40%;
+}
+
+.post-chapters-lst nav,
+.post-chapters-lst .tab-content {
+    width: 100%;
+}
+
+
+.post-chapters-lst .tab-content a {
+    cursor: pointer;
+}
+
+.post-chapters-lst .tab-content table.table-chapters tbody tr.hide {
+    display: none;
+}
+
+.post-chapters-lst .tab-content table.table-chapters tbody tr td:first-child {
+    width: 50%;
+    font-weight: 600;
+    color: #3273dc;
+    cursor: pointer;
+}
+
+.post-chapters-lst .tab-content table.table-chapters tbody tr td:last-child {
+    width: 20%;
+    color: #3273dc;
+    cursor: pointer;
+    text-align: right;
+}
+
+.post-comments form {
+    width: 100%;
+}
+
+.comment-not-auth {
+    width: 100%;
+}
+.post-comments img {
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+}
+
+#form-post-comment {
+    margin-top: 20px;
+}
+
+#form-post-comment textarea {
+    margin-left: 5px;
+    display: block;
+    padding: calc(0.75em - 1px);
+    resize: vertical;
+    max-height: 40em;
+    min-height: 8em;
+}
+
+#form-post-comment button[type="submit"] {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+hr {
+    background-color: whitesmoke;
+    border: none;
+    display: block;
+    height: 2px;
+    margin: 1.5rem 0;
+}
+
+.post-comments .row.col-12 {
+    padding-left: 0;
+}
+
+.no-comments {
+    width: 100%;
+}
+
+@media only screen and (max-width: 598px) {
+    .box-share-button,
+    .box-info {
+        width: 100%;
+        position: relative;
+    }
+
+    .box-share-button {
+        margin-top: 20px;
+    }
+
+    .box-share-button button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .box-share-button button:first-child {
+        margin-right: 0rem !important;
+    }
+}

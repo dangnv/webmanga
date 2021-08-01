@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Traits\Timestamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,6 +31,16 @@ class Post extends Model
         return $this->hasMany(PostCategory::class, 'post_id', 'id');
     }
 
+    public function chapters ()
+    {
+        return $this->hasMany(Chapter::class, 'post_id', 'id');
+    }
+
+    public function comments ()
+    {
+        return $this->hasMany(Comment::class, 'post_id', 'id')->orderBy('created_at', 'desc');
+    }
+
     public static function getLastChapter($id)
     {
         return Chapter::select('*')
@@ -39,5 +48,16 @@ class Post extends Model
                         ->orderBy('published_date', 'desc')
                         ->take(1)
                         ->get();
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public static function getPostBySlug($slug)
+    {
+        $post = self::where('slug', $slug)->get();
+        if (count($post)) { return $post[0]; }
+
+        return [];
     }
 }
