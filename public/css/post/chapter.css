@@ -1,0 +1,45 @@
+.content-part>div {
+    text-align: center;
+    justify-content: center;
+}
+
+.box-chapter-title h3,
+.box-chapter-title h2 {
+    width: 100%;
+}
+
+.box-chapter-title h2 {
+    font-size: 1.5rem;
+}
+
+.box-chapter-title h3 {
+    color: #8c9b9d;
+    font-weight: 400;
+    line-height: 1.25;
+    font-size: 1.25rem;
+}
+
+.box-list-chapters {
+    width: 100%;
+    margin-bottom: calc(1.5rem - .75rem);
+    margin-top: calc(1.5rem - .75rem);
+}
+
+.box-list-chapters > div:first-child {
+    text-align: left;
+}
+
+.box-list-chapters > div:last-child {
+    text-align: right;
+}
+
+.box-list-chapters .form-control {
+    width: fit-content;
+    cursor: pointer;
+}
+
+.box-list-images .image-chapter img {
+    height: auto;
+    max-width: 100%;
+    width: 100%;
+}

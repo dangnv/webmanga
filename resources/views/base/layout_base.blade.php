@@ -50,7 +50,7 @@
 </div>
 <div class="row">
     {{--Col for content--}}
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+    <div class="col-xs-12 col-sm-12 col-md-12 {{ !isset($tags) && !isset($categories) && !isset($popular_posts) ? 'col-12' : 'col-lg-8' }}">
         @include('includes.base.search')
         <div class="row content-part">
             @yield('content-page')

@@ -6,8 +6,10 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Comment;
+use App\Models\Image;
 use App\Models\Post;
 use App\Models\PostCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -317,7 +319,21 @@ class HomeController extends BaseController
     public function detailChapter($post_slug, $chapter_slug, Request $request)
     {
         $post = Post::getPostBySlug($post_slug);
-        $chapter = Chapter::getChapterBySlug($chapter_slug);
+        if (!empty($post)) {
+            $chapter = Chapter::getChapterBySlug($chapter_slug);
+            if (!empty($chapter)) {
+                $images = Image::where('chapter_id', $chapter->id)->get();
+
+                return $this->renderView($request, 'post.chapter.detail', [
+                    'images' => $images,
+                    'chapter' => $chapter,
+                    'post' => $post,
+                    'is_show_tags' => false,
+                    'is_show_popular_posts' => false,
+                    'is_show_categories' => false,
+                ]);
+            }
+        }
     }
 
     /**
@@ -327,7 +343,10 @@ class HomeController extends BaseController
     public function profile(Request $request)
     {
         return $this->renderView($request, 'profile.index', [
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'is_show_tags' => false,
+            'is_show_popular_posts' => false,
+            'is_show_categories' => false,
         ]);
     }
 }

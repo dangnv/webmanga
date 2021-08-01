@@ -285,6 +285,10 @@ body>.row:last-child {
     justify-content: center;
 }
 
+.none-side-bar {
+    width: 100%;
+}
+
 @media screen and (min-width: 1408px) {
     body {
         max-width: 1344px;
