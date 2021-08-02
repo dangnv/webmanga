@@ -20,7 +20,7 @@
     @endif
 @endsection
 @section('title')
-    {{ $chapter->title }}
+    {{ !empty($chapter) ? $chapter->title : 'Chapter detail' }}
 @endsection
 @section('css_files')
     <link rel="stylesheet" href="{{ asset('css/post/chapter.css') }}?v={{ env('STATIC_VER', '20210726') }}">

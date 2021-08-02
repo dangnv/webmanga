@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\ArticleTag;
 use App\Models\Bookmark;
 use App\Models\Category;
 use App\Models\Chapter;
@@ -413,6 +414,25 @@ class HomeController extends BaseController
             'is_show_tags' => false,
             'is_show_popular_posts' => false,
             'is_show_categories' => false,
+        ]);
+    }
+
+    public function newsDetail($slug, Request $request)
+    {
+        $article = Article::getArticleBySlug($slug);
+        if (!empty($article)) {
+            $tagIds = ArticleTag::select('tag_id')->where('article_id', $article->id)->pluck('tag_id');
+            $articleIds = ArticleTag::select('article_id')->whereIn('tag_id', $tagIds)->pluck('article_id');
+            $newsRecommend = Article::whereIn('id', $articleIds)->get();
+        } else {
+            $newsRecommend = Article::take(Article::ITEM_PER_PAGE)->orderBy('public_at', 'desc')->get();
+        }
+
+        return $this->renderView($request, 'news.detail', [
+            'article' => $article,
+            'newsRecommend' => $newsRecommend,
+            'is_show_tags' => false,
+            'is_show_categories' => false
         ]);
     }
 }

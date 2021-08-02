@@ -14,4 +14,12 @@ class Article extends Model
 
     const ITEM_PER_PAGE = 10;
     const CURRENT_PAGE  = 1;
+
+    public static function getArticleBySlug($slug)
+    {
+        $article = Article::where('slug', $slug)->get();
+        if (count($article)) { return $article[0]; }
+
+        return [];
+    }
 }
