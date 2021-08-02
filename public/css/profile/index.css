@@ -84,6 +84,10 @@ body.night-mode .lst-bookmarks-user .bookmark-post .bookmark-post-remove {
     cursor: pointer;
 }
 
+.lst-bookmarks-user .bookmark-post .bookmark-post-info {
+    max-width: 60%;
+}
+
 .lst-bookmarks-user .bookmark-post .bookmark-post-info p,
 .lst-bookmarks-user .bookmark-post .bookmark-post-info h3 {
     font-size: 1rem;
@@ -95,6 +99,7 @@ body.night-mode .lst-bookmarks-user .bookmark-post .bookmark-post-remove {
     border-color: transparent;
     color: #fff !important;
 }
+
 
 @media only screen and (max-width: 1087px) {
     .content-profile, .lst-bookmarks-user {

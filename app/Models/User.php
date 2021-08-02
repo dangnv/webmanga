@@ -42,16 +42,7 @@ class User extends Authenticatable
 
     public static function convertName($name)
     {
-        if (strlen($name) <= 10) { return $name; }
-        $str = '';
-        for ($i = 0; $i < strlen($name); $i++) {
-            if ($i < 10) { $str .= $name[$i]; }
-            else {
-                $str .= '...';
-                break;
-            }
-        }
-
-        return $str;
+        if (mb_strlen($name) < 6) { return $name; }
+        return substr($name, 0, 6).'...';
     }
 }

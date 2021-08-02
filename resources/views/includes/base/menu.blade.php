@@ -9,8 +9,7 @@
         </button>
         @if (\Illuminate\Support\Facades\Auth::check())
             <a class="navbar-toggler is-mobile-login-btn box-profile" href="{{ route(($is_night_mode ? 'night.' : '').'profile.index') }}">
-                <img src="{{ \Illuminate\Support\Facades\Auth::user()->avatar }}" />
-                <span class="lbl-user-name" data-toggle="tooltip" data-placement="top" title="{{  \Illuminate\Support\Facades\Auth::user()->name }}">{{ \App\Models\User::convertName(\Illuminate\Support\Facades\Auth::user()->name) }}</span>
+                @include('includes._user_info')
             </a>
         @else
             <a class="navbar-toggler is-mobile-login-btn" href="#login" onclick="$('#modal_login').modal('show')">{{ trans('text.menu.btn_login') }}</a>
@@ -51,8 +50,7 @@
                 @if (\Illuminate\Support\Facades\Auth::check())
                 <li class="nav-item">
                     <a class="nav-link box-profile" href="{{ route(($is_night_mode ? 'night.' : '').'profile.index') }}">
-                        <img src="{{ \Illuminate\Support\Facades\Auth::user()->avatar }}" />
-                        <span class="lbl-user-name" data-toggle="tooltip" data-placement="top" title="{{ \Illuminate\Support\Facades\Auth::user()->name }}">{{ \App\Models\User::convertName(\Illuminate\Support\Facades\Auth::user()->name) }}</span>
+                        @include('includes._user_info')
                     </a>
                 </li>
                 <li class="nav-item nav-logout">

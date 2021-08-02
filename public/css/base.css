@@ -289,6 +289,14 @@ body>.row:last-child {
     width: 100%;
 }
 
+.for-mobile {
+    display: none;
+}
+
+.for-desktop {
+    font-size: 16px;
+}
+
 @media screen and (min-width: 1408px) {
     body {
         max-width: 1344px;
@@ -318,5 +326,13 @@ body>.row:last-child {
 @media only screen and (max-width: 575px) {
     .box-news .comtent-news {
         padding-left: 0;
+    }
+
+    .for-mobile {
+        display: initial;
+    }
+
+    .for-desktop {
+        display: none;
     }
 }

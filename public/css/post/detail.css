@@ -1,5 +1,6 @@
 .post-title-detail .box-info {
     display: flex;
+    width: 60%;
 }
 
 .post-title-detail .box-info .image {
