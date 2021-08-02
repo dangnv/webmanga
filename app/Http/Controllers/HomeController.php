@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Bookmark;
 use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Comment;
@@ -11,12 +12,12 @@ use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use \Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Validator;
+use \Illuminate\Http\RedirectResponse;
 
 class HomeController extends BaseController
 {
@@ -316,6 +317,69 @@ class HomeController extends BaseController
         }
     }
 
+    public function postBookmark(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'post_id' => 'required',
+            'user_id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator, 'bookmark');
+        }
+
+        $data = $request->all();
+        unset($data['_token']);
+
+        try {
+            Bookmark::create($data);
+
+            return redirect()->back();
+        } catch (\Exception $exception) {
+            Log::error("Exception post bookmark: {$exception->getMessage()}");
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function removeBookmark(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'post_slug' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator, 'bookmark');
+        }
+
+        try {
+            Bookmark::where('post_id', Post::select('id')->where('slug', $request->post_slug)->pluck('id'))
+                    ->where('user_id', Auth::id())
+                    ->delete();
+
+            return redirect()->back();
+        } catch (\Exception $exception) {
+            Log::error("Exception post bookmark: {$exception->getMessage()}");
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function removeAllBookmark(Request $request)
+    {
+        try {
+            Bookmark::where('user_id', Auth::id())->delete();
+
+            return redirect()->back();
+        } catch (\Exception $exception) {
+            Log::error("Exception post bookmark: {$exception->getMessage()}");
+            return redirect()->back();
+        }
+    }
+
     public function detailChapter($post_slug, $chapter_slug, Request $request)
     {
         $post = Post::getPostBySlug($post_slug);
@@ -342,8 +406,10 @@ class HomeController extends BaseController
      */
     public function profile(Request $request)
     {
+        $bookmarkPosts = Bookmark::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
         return $this->renderView($request, 'profile.index', [
             'user' => Auth::user(),
+            'bookmark_posts' => $bookmarkPosts,
             'is_show_tags' => false,
             'is_show_popular_posts' => false,
             'is_show_categories' => false,

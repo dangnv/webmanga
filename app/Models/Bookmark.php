@@ -11,4 +11,16 @@ class Bookmark extends Model
 
     protected $table = 'bookmarks';
     protected $fillable = ['user_id', 'post_id'];
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'post_id', 'id');
+    }
+
+    public static function bookmarkDone($postId, $userId)
+    {
+        return self::where('post_id', $postId)
+                    ->where('user_id', $userId)
+                    ->count();
+    }
 }

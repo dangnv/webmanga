@@ -1,9 +1,20 @@
 @extends('base.layout_base')
 @section('content-page')
     @if (isset($errors) && $errors->comment && $errors->comment->first())
-    <div class="alert alert-warning" role="alert">
-        {{ $errors->comment->first() }}
-    </div>
+        <script>
+            swal({
+                text: "{{ $errors->comment->first() }}",
+                dangerMode: true,
+            });
+        </script>
+    @endif
+    @if (isset($errors) && $errors->bookmark && $errors->bookmark->first())
+        <script>
+            swal({
+                text: "{{ $errors->bookmark->first() }}",
+                dangerMode: true,
+            });
+        </script>
     @endif
     @if (!empty($post))
         <div class="row col-12">
@@ -34,7 +45,25 @@
                         <a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $post->chapters[0]->slug]) }}"
                     @else <a href="#"
                     @endif class="btn btn-danger"><i class="fa fa-play" aria-hidden="true"></i> Read now</a>
-                    <a href="#" class="btn btn-success"><i class="fa fa-bookmark-o" aria-hidden="true"></i> Bookmark</a>
+                    @if (\Illuminate\Support\Facades\Auth::check())
+                        @php $user = \Illuminate\Support\Facades\Auth::user() @endphp
+                        @if (\App\Models\Bookmark::bookmarkDone($post->id, $user->id))
+                            <a href="#" onclick="$('#form-remove-bookmark').submit()" class="btn btn-outline-warning"><i class="fa fa-bookmark-o" aria-hidden="true"></i> Remove bookmark</a>
+                            <form action="{{ route('post.bookmark.remove') }}" method="post" id="form-remove-bookmark">
+                                @csrf
+                                <input type="hidden" name="post_slug" value="{{ $post->slug }}">
+                            </form>
+                        @else
+                            <a href="#" onclick="$('#form-bookmark').submit()" class="btn btn-success"><i class="fa fa-bookmark-o" aria-hidden="true"></i> Bookmark</a>
+                            <form action="{{ route('bookmark.post') }}" method="post" id="form-bookmark">
+                                @csrf
+                                <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                            </form>
+                        @endif
+                    @else
+                        <a href="#menu" onclick="swal('Login to bookmark for this manga!');" class="btn btn-success"><i class="fa fa-bookmark-o" aria-hidden="true"></i> Bookmark</a>
+                    @endif
                 </div>
                 <div class="row">
 

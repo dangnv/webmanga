@@ -33,6 +33,13 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 
+    public static function getUserFromEmail ($email) {
+        $users = self::where('email', $email)->get();
+        if (count($users)) { return $users[0]; }
+
+        return [];
+    }
+
     public static function convertName($name)
     {
         if (strlen($name) <= 10) { return $name; }

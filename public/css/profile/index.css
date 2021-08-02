@@ -1,3 +1,16 @@
+.row.content-part {
+    display: flex;
+}
+
+.content-profile {
+    width: 20%;
+}
+
+.lst-bookmarks-user {
+    padding-left: 1.5rem;
+    width:80%;
+}
+
 .content-profile .card-header {
     justify-content: center;
     text-align: center;
@@ -22,4 +35,78 @@
 
 body.night-mode .content-profile .card-body {
     color: #333;
+}
+
+body.night-mode .content-profile.card .card-header,
+body.night-mode .content-profile.card .card-body,
+body.night-mode .content-profile.card .list-group .list-group-item {
+    background-color: #282F2F;
+    color: #fff;
+}
+
+body.night-mode .lst-bookmarks-user .bookmark-post .bookmark-post-info p,
+body.night-mode .lst-bookmarks-user .bookmark-post .bookmark-post-info h3 {
+    color: #fff;
+}
+
+body.night-mode .lst-bookmarks-user .bookmark-post .bookmark-post-remove {
+    color: #fff;
+}
+
+.lst-bookmarks-user span.no-bookmark {
+    width: 100%;
+}
+
+.lst-bookmarks-user h2.title {
+    width: 100%;
+    font-size: 1.25rem;
+}
+
+.lst-bookmarks-user .btn-clear-all-bookmark {
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.lst-bookmarks-user .bookmark-post {
+    display: flex;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.lst-bookmarks-user .bookmark-post .image {
+    margin-right: 1rem;
+}
+
+.lst-bookmarks-user .bookmark-post .bookmark-post-remove {
+    padding-left: 5rem;
+    font-size: 2rem;
+    color: #333;
+    cursor: pointer;
+}
+
+.lst-bookmarks-user .bookmark-post .bookmark-post-info p,
+.lst-bookmarks-user .bookmark-post .bookmark-post-info h3 {
+    font-size: 1rem;
+    color: #333;
+}
+
+.btn-clear-all {
+    background-color: #f14668;
+    border-color: transparent;
+    color: #fff !important;
+}
+
+@media only screen and (max-width: 1087px) {
+    .content-profile, .lst-bookmarks-user {
+        width: 100%;
+    }
+
+    .lst-bookmarks-user {
+        margin-top: 2rem;
+    }
+
+    .bookmark-post-remove {
+        position: absolute;
+        right: 1rem;
+    }
 }

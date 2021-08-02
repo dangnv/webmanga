@@ -48,6 +48,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/callback/{provider}', 'SocialController@callback');
 
     Route::post('/comment/post', 'HomeController@postComment')->name('comment.post');
+
+    Route::post('bookmark/post', 'HomeController@postBookmark')->name('bookmark.post');
+    Route::post('bookmark/remove', 'HomeController@removeBookmark')->name('post.bookmark.remove');
+    Route::post('bookmark/remove/all', 'HomeController@removeAllBookmark')->name('post.bookmark.remove.all');
 });
 
 Auth::routes();
