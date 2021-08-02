@@ -7,9 +7,9 @@
         </div>
         @include('includes.chapter._button', ['post' => $post])
         <div class="row col-12 box-list-images">
-            @foreach($images as $image)
+            @foreach($images as $key => $image)
                 <div class="image-chapter">
-                    <img src="{{ $image->url }}"/>
+                    <img @if ($key > 3) class="lazy" src="{{ asset('images/loading2.gif') }}" @else src="{{ $image->url }}" @endif data-src="{{ $image->url }}"/>
                 </div>
             @endforeach
         </div>
