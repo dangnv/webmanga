@@ -15,7 +15,7 @@
     right: 0;
 }
 
-.box-share-button button:first-child {
+.box-share-button a:first-child {
     margin-right: 0.5rem !important;
 }
 
@@ -114,11 +114,11 @@ hr {
         margin-top: 20px;
     }
 
-    .box-share-button button {
+    .box-share-button a {
         width: 100%;
         margin-bottom: 10px;
     }
-    .box-share-button button:first-child {
+    .box-share-button a:first-child {
         margin-right: 0rem !important;
     }
 }

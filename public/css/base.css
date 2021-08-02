@@ -213,8 +213,8 @@ body>.row:last-child {
 }
 
 .btn-show-more {
-    background-color: #eef6fc;
-    color: #1d72aa;
+    background-color: #eef6fc !important;
+    color: #1d72aa !important;
     border: transparent;
 }
 

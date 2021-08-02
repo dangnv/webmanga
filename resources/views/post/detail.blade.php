@@ -30,8 +30,11 @@
             </div>
             <div class="box-share-button">
                 <div class="row">
-                    <button type="button" class="btn btn-danger"><i class="fa fa-play" aria-hidden="true"></i> Read now</button>
-                    <button type="button" class="btn btn-success"><i class="fa fa-bookmark-o" aria-hidden="true"></i> Bookmark</button>
+                    @if ($post->chapters)
+                        <a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $post->chapters[0]->slug]) }}"
+                    @else <a href="#"
+                    @endif class="btn btn-danger"><i class="fa fa-play" aria-hidden="true"></i> Read now</a>
+                    <a href="#" class="btn btn-success"><i class="fa fa-bookmark-o" aria-hidden="true"></i> Bookmark</a>
                 </div>
                 <div class="row">
 
@@ -97,7 +100,7 @@
                         <tr class="{{ $key > \App\Models\Chapter::ITEM_PER_PAGE ? 'hide' : '' }}">
                             <td scope="row"><a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $post->chapters[0]->slug]) }}">{{ $chapter->title }}</a></td>
                             <td>{{ $chapter->published_date ? \Carbon\Carbon::create($chapter->published_date)->format('Y/m/d') : '' }}</td>
-                            <td><a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $chapter->slug]) }}"></a>Read</td>
+                            <td><a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $chapter->slug]) }}">Read</a></td>
                         </tr>
                         @endforeach
                         </tbody>
