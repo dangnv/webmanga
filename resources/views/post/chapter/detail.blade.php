@@ -5,11 +5,11 @@
             <h2>{{ $post->title }}</h2>
             <h3>{{ $chapter->title }}</h3>
         </div>
-        @include('includes.chapter._button', ['post' => $post])
+        @include('includes.chapter._button', ['post' => $post, 'chapter' => $chapter])
         <div class="row col-12 box-list-images">
             @foreach($images as $key => $image)
                 <div class="image-chapter">
-                    <img @if ($key > 3) class="lazy" src="{{ asset('images/loading2.gif') }}" @else src="{{ $image->url }}" @endif data-src="{{ $image->url }}"/>
+                    <img @if ($key > 3) class="lazy" src="{{ asset('images/loading2.gif') }}" @else src="{{ $image->url }}" @endif data-src="{{ $image->url }}" onerror="this.src='{{ asset('images/loading2.gif') }}'"/>
                 </div>
             @endforeach
         </div>
@@ -24,4 +24,7 @@
 @endsection
 @section('css_files')
     <link rel="stylesheet" href="{{ asset('css/post/chapter.css') }}?v={{ env('STATIC_VER', '20210726') }}">
+@endsection
+@section('js_files')
+    <script src="{{ asset('js/chapter.js') }}?{{ env('STATIC_VER', '20210802') }}"></script>
 @endsection

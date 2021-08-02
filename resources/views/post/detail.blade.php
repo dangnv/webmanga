@@ -127,7 +127,7 @@
                         <tbody>
                         @foreach($post->chapters as $key => $chapter)
                         <tr class="{{ $key > \App\Models\Chapter::ITEM_PER_PAGE ? 'hide' : '' }}">
-                            <td scope="row"><a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $post->chapters[0]->slug]) }}">{{ $chapter->title }}</a></td>
+                            <td scope="row"><a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $chapter->slug]) }}">{{ $chapter->title }}</a></td>
                             <td>{{ $chapter->published_date ? \Carbon\Carbon::create($chapter->published_date)->format('Y/m/d') : '' }}</td>
                             <td><a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $chapter->slug]) }}">Read</a></td>
                         </tr>
