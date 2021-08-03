@@ -104,6 +104,74 @@ hr {
     width: 100%;
 }
 
+.box-share-button .box-socials-share {
+    float: right;
+    margin-top: 1em
+}
+
+.socials-share {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.box-share-button .socials-share a {
+    color: #fff;
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    text-align: center;
+    justify-content: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    white-space: nowrap;
+    display: inline-block;
+    margin-right: 0.25em !important;
+}
+
+.socials-share span.fa {
+    margin-right: 3px;
+}
+
+.bg-facebook {
+    background: #3a5899;
+}
+
+.bg-facebook:hover, .bg-facebook:focus {
+    background: #1d418d;
+}
+
+.bg-twitter {
+    background: #00acee;
+}
+
+.bg-twitter:hover, .bg-twitter:focus {
+    background: #0b93c7;
+}
+
+.bg-google-plus {
+    background: #db4437;
+}
+
+.bg-google-plus:hover, .bg-google-plus:focus {
+    background: #bb2a1d;
+}
+
+.bg-pinterest {
+    background: #cb1e26;
+}
+
+.bg-pinterest:hover, .bg-pinterest:focus {
+    background: #ae0e15;
+}
+
+.bg-email {
+    background: #dd5348;
+}
+
+.bg-email:hover, .bg-email:focus {
+    background: #ce3f34;
+}
+
 @media only screen and (max-width: 598px) {
     .box-share-button,
     .box-info {
@@ -119,7 +187,7 @@ hr {
         width: 100%;
         margin-bottom: 10px;
     }
-    .box-share-button a:first-child {
+    .box-share-button .row:first-child a:first-child {
         margin-right: 0rem !important;
     }
 }

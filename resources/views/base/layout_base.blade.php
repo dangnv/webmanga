@@ -66,10 +66,10 @@
         <div class="card-body">
             <div class="col-12 container">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a class="social-icon text-center" target="_blank" href="#">About Us</a> |</li>
-                    <li class="list-inline-item"><a class="social-icon text-center" target="_blank" href="#">Term of Use</a> |</li>
-                    <li class="list-inline-item"><a class="social-icon text-center" target="_blank" href="#">Privacy Policy</a> |</li>
-                    <li class="list-inline-item"><a class="social-icon text-center" target="_blank" href="#">Report error manga</a></li>
+                    <li class="list-inline-item"><a class="social-icon text-center" href="#">About Us</a> |</li>
+                    <li class="list-inline-item"><a class="social-icon text-center" href="#">Term of Use</a> |</li>
+                    <li class="list-inline-item"><a class="social-icon text-center" href="#">Privacy Policy</a> |</li>
+                    <li class="list-inline-item"><a class="social-icon text-center" href="#">Report error manga</a></li>
                 </ul>
             </div>
             <h5 class="card-title">Why You Should Read Manga Online at MangaYeh.com ?</h5>

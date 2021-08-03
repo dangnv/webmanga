@@ -65,8 +65,14 @@
                         <a href="#menu" onclick="swal('Login to bookmark for this manga!');" class="btn btn-success"><i class="fa fa-bookmark-o" aria-hidden="true"></i> Bookmark</a>
                     @endif
                 </div>
-                <div class="row">
-
+                <div class="row box-socials-share">
+                    <div class="socials-share">
+                        <a class="bg-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" target="_blank"><span class="fa fa-facebook"></span></a>
+                        <a class="bg-twitter" href="https://twitter.com/share?text={{ $post->title }}&url={{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" target="_blank"><span class="fa fa-twitter"></span></a>
+                        <a class="bg-google-plus" href="https://plus.google.com/share?url={{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" target="_blank"><span class="fa fa-google-plus"></span></a>
+                        <a class="bg-pinterest" href="https://www.pinterest.com/pin/create/button/?url={{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}&media={{ $post->thumbnail }}&description={{ $post->title }}" target="_blank"><span class="fa fa-pinterest"></span></a>
+                        <a class="bg-email" href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to&su={{ $post->title }}&body={{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" target="_blank"><span class="fa fa-envelope"></span></a>
+                    </div>
                 </div>
             </div>
         </div>
