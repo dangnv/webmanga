@@ -3,7 +3,7 @@
         <div class="image">
             <img src="{{ $post->thumbnail }}">
         </div>
-        <div class="col-lg-9 col-8">
+        <div class="col-8">
             <div class="media-content">
                 <div class="content">
                     <div class="mtitle">

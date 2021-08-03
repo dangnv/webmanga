@@ -8,3 +8,6 @@
 .box-news-detail {
     padding: 15px;
 }
+.box-news-detail img {
+    max-width: 100%;
+}
