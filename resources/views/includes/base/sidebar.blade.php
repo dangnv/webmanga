@@ -5,7 +5,7 @@
     </div>
     <div class="col-12">
         @foreach($tags as $keyWord)
-            <a class="badge badge-success" href="#search">{{ $keyWord->name }}</a>
+            <a class="badge badge-success" href="{{ route(($is_night_mode ? 'night.' : '').'post.by.tag', ['q' => $keyWord->slug]) }}">{{ $keyWord->name }}</a>
         @endforeach
     </div>
 </div>

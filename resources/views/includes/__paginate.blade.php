@@ -15,6 +15,9 @@
                 if (isset($category) && !empty($category)) {
                     $params['slug'] = $category->slug;
                 }
+                if (isset($key_word) && !empty($key_word)) {
+                    $params['q'] = $key_word;
+                }
             @endphp
             <li class="page-item {{ $start <= 0 }} {{ $current_page <= 1 ? 'disabled' : '' }}">
                 @php $params['page'] = $previous; @endphp

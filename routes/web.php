@@ -17,6 +17,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::group(['prefix' => 'night-mode'], function () {
         Route::get('/', 'HomeController@index')->name('night.home');
 
+        Route::get('/tag', 'HomeController@postByTags')->name('night.post.by.tag');
+        Route::get('/search', 'HomeController@search')->name('night.post.search');
         Route::get('/latest', 'HomeController@latest')->name('night.post.latest');
         Route::get('/completed', 'HomeController@completed')->name('night.post.completed');
         Route::get('/newest', 'HomeController@newest')->name('night.post.newest');
@@ -33,6 +35,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     /*light*/
     Route::get('/', 'HomeController@index')->name('home');
 
+    Route::get('/tag', 'HomeController@postByTags')->name('post.by.tag');
+    Route::get('/search', 'HomeController@search')->name('post.search');
     Route::get('/latest', 'HomeController@latest')->name('post.latest');
     Route::get('/completed', 'HomeController@completed')->name('post.completed');
     Route::get('/newest', 'HomeController@newest')->name('post.newest');

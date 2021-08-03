@@ -11,6 +11,7 @@ use App\Models\Comment;
 use App\Models\Image;
 use App\Models\Post;
 use App\Models\PostCategory;
+use App\Models\PostTag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Log;
 use \Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Validator;
 use \Illuminate\Http\RedirectResponse;
+use App\Models\Tag;
 
 class HomeController extends BaseController
 {
@@ -47,6 +49,86 @@ class HomeController extends BaseController
             'on_going_posts'    => $onGoingPosts,
             'completed_posts'   => $completedPosts,
             'is_show_search'    => true
+        ]);
+    }
+
+    public function postByTags (Request $request)
+    {
+        $slug = $request->get('q');
+
+        if (empty($slug)) {
+            return redirect(route('home'));
+        }
+        $itemPerPage = Post::ITEM_PER_PAGE;
+        $page = $request->get('page') ?? Post::CURRENT_PAGE;
+        $limit = $itemPerPage * ($page - 1);
+        $tag = Tag::select('id', 'name')->where('slug', $slug)->get();
+        if (!count($tag)) {
+            $posts = [];
+            $totalPages = 0;
+        } else {
+            $tag = $tag[0];
+            $totalPages = ceil(Post::whereIn('id', PostTag::select('post_id')->where('tag_id', $tag->id))->count() / $itemPerPage);
+
+            $posts = Post::select(
+                'posts.id',
+                'posts.title',
+                'posts.slug',
+                'posts.status',
+                'posts.is_new',
+                'posts.thumbnail',
+                DB::raw('(select published_date from chapters where post_id = posts.id LIMIT 1) as published_date'))
+                ->whereIn('id', PostTag::select('post_id')->where('tag_id', $tag->id))
+                ->orderBy('published_date', 'desc')
+                ->skip($limit)
+                ->take($itemPerPage)
+                ->get();
+            $slug = $tag->name;
+        }
+
+        return $this->renderView($request, 'post.search', [
+            'is_show_tags'  => false,
+            'posts'         => $posts,
+            'total_pages'   => $totalPages,
+            'current_page'  => $page,
+            'is_show_search'=> true,
+            'key_word'      => $slug
+        ]);
+    }
+
+    public function search(Request $request) {
+        $keyWord = $request->get('q');
+        if (empty($keyWord)) {
+            return redirect(route('home'));
+        }
+        $itemPerPage = Post::ITEM_PER_PAGE;
+        $page = $request->get('page') ?? Post::CURRENT_PAGE;
+        $limit = $itemPerPage * ($page - 1);
+        $totalPages = ceil(Post::where('title', 'LIKE', $keyWord)
+                                    ->orWhere(DB::raw('(select title from chapters where post_id = posts.id LIMIT 1)'), 'LIKE', "%{$keyWord}%")
+                                    ->count() / $itemPerPage);
+        $posts = Post::select(
+            'posts.id',
+            'posts.title',
+            'posts.slug',
+            'posts.status',
+            'posts.is_new',
+            'posts.thumbnail',
+            DB::raw('(select published_date from chapters where post_id = posts.id LIMIT 1) as published_date'))
+            ->where('title', 'LIKE', "%{$keyWord}%")
+            ->orWhere(DB::raw('(select title from chapters where post_id = posts.id LIMIT 1)'), 'LIKE', "%{$keyWord}%")
+            ->orderBy('published_date', 'desc')
+            ->skip($limit)
+            ->take($itemPerPage)
+            ->get();
+
+        return $this->renderView($request, 'post.search', [
+            'is_show_tags'  => false,
+            'posts'         => $posts,
+            'total_pages'   => $totalPages,
+            'current_page'  => $page,
+            'is_show_search'=> true,
+            'key_word'      => $keyWord
         ]);
     }
 
