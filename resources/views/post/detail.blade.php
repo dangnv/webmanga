@@ -32,7 +32,7 @@
                 </div>
                 <div class="post-title">
                     <h1 class="title is-4 mb-0">{{ $post->title }}</h1>
-                    @if ($post->chapters)
+                    @if (count($post->chapters))
                     <p>
                         Last chapter: <a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $post->chapters[0]->slug]) }}">{{ $post->chapters[0]->title }}</a>
                     </p>
@@ -41,7 +41,7 @@
             </div>
             <div class="box-share-button">
                 <div class="row">
-                    @if ($post->chapters)
+                    @if (count($post->chapters))
                         <a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $post->chapters[0]->slug]) }}"
                     @else <a href="#"
                     @endif class="btn btn-danger"><i class="fa fa-play" aria-hidden="true"></i> Read now</a>
@@ -140,9 +140,11 @@
                         @endforeach
                         </tbody>
                     </table>
+                    @if (count($post->chapters) > \App\Models\Chapter::ITEM_PER_PAGE)
                     <div class="row col-12">
                         <a onclick="$('#nav-chapters-lst tr.hide').show(); $(this).hide();" class="form-control btn btn-primary btn-show-more">{{ trans('text.global.btn_see_more') }}</a>
                     </div>
+                    @endif
                 </div>
                 <div class="tab-pane fade" id="nav-description" role="tabpanel" aria-labelledby="nav-profile-tab">
                     {!! $post->description !!}
