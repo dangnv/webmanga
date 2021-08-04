@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="{{ asset('images/logos/Inuyasha_avatar.png') }}" type="image/gif" sizes="16x16">
+    <link rel="icon" href="{{ asset('images/logos/logo.png') }}" type="image/gif" sizes="16x16">
     <meta name="format-detection" content="telephone=no">
     <link rel="shortcut icon" href="" type="image/x-icon" />
 
@@ -22,8 +22,8 @@
 
     <meta name="twitter:title" content="✔️Read manga online (100% free) - Fastest">
     <meta name="twitter:description" content="✔️Reading manga free with latest chapter, free with high-quality images, read manga on mobile, read comic online (free)">
-    <meta property="og:image" content="{{ asset('images/logos/Inuyasha_avatar.png') }}">
-    <meta name="twitter:image" content="{{ asset('images/logos/Inuyasha_avatar.png') }}">
+    <meta property="og:image" content="{{ asset('images/logos/logo.png') }}">
+    <meta name="twitter:image" content="{{ asset('images/logos/logo.png') }}">
     <meta name="theme-color" content="#ffffff">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,7 +32,7 @@
 
     <title>Manga Web - @yield('title')</title>
 
-    <link rel="icon" href="{{ asset('images/logos/Inuyasha_avatar.png') }}" type="image/gif" sizes="16x16">
+    <link rel="icon" href="{{ asset('images/logos/logo') }}" type="image/gif" sizes="16x16">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/base.css') }}?v={{ time() }}">
@@ -72,7 +72,7 @@
                     <li class="list-inline-item"><a class="social-icon text-center" href="#">Report error manga</a></li>
                 </ul>
             </div>
-            <h5 class="card-title">Why You Should Read Manga Online at MangaYeh.com ?</h5>
+            <h5 class="card-title">Why You Should Read Manga Online at {{ env('APP_URL') }} ?</h5>
             <p class="card-text">
                 There are many reasons you should read Manga online, and if you are a fan of this unique storytelling style then learning about them is a must. One of the biggest reasons why you should read Manga online is the money it can save you. While there's nothing like actually holding a book in your hands, there's also no denying that the cost of those books can add up quickly. So why not join the digital age and read Manga online? Another big reason to read Manga online is the huge amount of material that is available. When you go to a comic store or other book store their shelves are limited by the space that they have. When you go to an online site to read Manga those limitations don't exist. So if you want the best selection and you also want to save money then reading Manga online should be an obvious choice for you
             </p>

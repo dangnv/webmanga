@@ -1,7 +1,7 @@
 <div class="col-12" id="menu">
     <nav class="navbar navbar-expand-sm {{ $is_night_mode ? 'navbar-dark bg-dark' : 'navbar-light bg-light' }}">
         <a class="navbar-brand" href="{{ route(($is_night_mode ? 'night.' : '').'home') }}">
-            <img src="{{ asset('images/logos/Inuyasha_avatar.png') }}" width="16px" height="16px">
+            <img src="{{ asset('images/logos/logo.png') }}" width="16px" height="16px">
             {{ env('APP_TITLE_PAGE') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,13 +40,6 @@
         </div>
         <div class="collapse navbar-collapse box-login">
             <ul class="navbar-nav mr-auto">
-<!--                <li class="nav-item">
-                    @if ($is_night_mode)
-                        <a class="turn-night-mode nav-link" href="{{ route('night.home') }}">
-                            <img width="20px" height="20px" src="https://mangayeh.com/img/night-mode.svg">
-                        </a>
-                    @endif
-                </li>-->
                 @if (\Illuminate\Support\Facades\Auth::check())
                 <li class="nav-item">
                     <a class="nav-link box-profile" href="{{ route(($is_night_mode ? 'night.' : '').'profile.index') }}">

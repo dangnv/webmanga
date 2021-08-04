@@ -2,7 +2,7 @@
     <div class="row columns is-mobile text-center">
         <div class="col-12 column box-night-mode">
             <a class="turn-night-mode box has-text-centered" href="{{ route('night.home') }}">
-                <img src="https://mangayeh.com/img/night-mode.svg" style="width: 32px; height: 32px;">
+                <img src="{{ asset('images/night-mode.svg') }}" style="width: 32px; height: 32px;">
                 <h2 class="title is-4">{{ trans('text.home.btn_night_mode') }}</h2>
             </a>
         </div>
