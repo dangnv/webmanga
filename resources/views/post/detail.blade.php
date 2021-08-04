@@ -21,7 +21,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb article-lst">
                     <li class="breadcrumb-item"><a href="{{ route(($is_night_mode ? 'night.' : '').'home') }}">{{ env('APP_TITLE_PAGE') }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $post->title }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">{!! $post->title !!}</li>
                 </ol>
             </nav>
         </div>
@@ -31,10 +31,10 @@
                     <img class="thumbnail" src="{{ $post->thumbnail }}" />
                 </div>
                 <div class="post-title">
-                    <h1 class="title is-4 mb-0">{{ $post->title }}</h1>
+                    <h1 class="title is-4 mb-0">{!! $post->title !!}</h1>
                     @if (count($post->chapters))
                     <p>
-                        Last chapter: <a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $post->chapters[0]->slug]) }}">{{ $post->chapters[0]->title }}</a>
+                        Last chapter: <a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $post->chapters[0]->slug]) }}">{!! $post->chapters[0]->title !!}</a>
                     </p>
                     @endif
                 </div>
@@ -69,10 +69,10 @@
                     <div class="socials-share">
                         @php $urlToShare = route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]); @endphp
                         <a class="bg-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ $urlToShare }}" target="_blank"><span class="fa fa-facebook"></span></a>
-                        <a class="bg-twitter" href="https://twitter.com/share?text={{ $post->title }}&url={{ $urlToShare }}" target="_blank"><span class="fa fa-twitter"></span></a>
+                        <a class="bg-twitter" href="https://twitter.com/share?text={!! $post->title !!}&url={{ $urlToShare }}" target="_blank"><span class="fa fa-twitter"></span></a>
                         <a class="bg-google-plus" href="https://plus.google.com/share?url={{ $urlToShare }}" target="_blank"><span class="fa fa-google-plus"></span></a>
-                        <a class="bg-pinterest" href="https://www.pinterest.com/pin/create/button/?url={{ $urlToShare }}&media={{ $post->thumbnail }}&description={{ $post->title }}" target="_blank"><span class="fa fa-pinterest"></span></a>
-                        <a class="bg-email" href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to&su={{ $post->title }}&body={{ $urlToShare }}" target="_blank"><span class="fa fa-envelope"></span></a>
+                        <a class="bg-pinterest" href="https://www.pinterest.com/pin/create/button/?url={{ $urlToShare }}&media={{ $post->thumbnail }}&description={!! $post->title !!}" target="_blank"><span class="fa fa-pinterest"></span></a>
+                        <a class="bg-email" href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to&su={!! $post->title !!}&body={{ $urlToShare }}" target="_blank"><span class="fa fa-envelope"></span></a>
                     </div>
                 </div>
             </div>
@@ -134,7 +134,7 @@
                         <tbody>
                         @foreach($post->chapters as $key => $chapter)
                         <tr class="{{ $key > \App\Models\Chapter::ITEM_PER_PAGE ? 'hide' : '' }}">
-                            <td scope="row"><a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $chapter->slug]) }}">{{ $chapter->title }}</a></td>
+                            <td scope="row"><a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $chapter->slug]) }}">{!! $chapter->title !!}</a></td>
                             <td>{{ $chapter->published_date ? \Carbon\Carbon::create($chapter->published_date)->format('Y/m/d') : '' }}</td>
                             <td><a href="{{ route(($is_night_mode ? 'night.' : '').'chapters.detail', ['post_slug' => $post->slug, 'chapter_slug' => $chapter->slug]) }}">Read</a></td>
                         </tr>
@@ -198,7 +198,7 @@
     @endif
 @endsection
 @section('title')
-    {{ !empty($post) ? $post->title : trans('text.global.lbl_not_found') }}
+    {!! !empty($post) ? $post->title : trans('text.global.lbl_not_found') !!}
 @endsection
 @section('css_files')
     <link rel="stylesheet" href="{{ asset('css/post/detail.css') }}?v={{ time() }}">

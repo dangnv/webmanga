@@ -37,13 +37,13 @@
             <div class="col-8">
                 <div class="media-content">
                     <div class="content">
-                        <div class="mtitle">{{ $post->title }}</div>
+                        <div class="mtitle">{!! $post->title !!}</div>
                         <p class="msub">
                             Views: {{ number_format($post->views) }}
                             · {{ $post->published_date ? \Carbon\Carbon::create($post->published_date)->format('M d Y') : '' }}</p>
                         <span class="ellipsis is-ellipsis-1">
                             @php $lastChapter = \App\Models\Post::getLastChapter($post->id) @endphp
-                            Last chapter: <span style="font-weight: 500;">{{ count($lastChapter) > 0 ? $lastChapter[0]->title : '' }}</span>
+                            Last chapter: <span style="font-weight: 500;">{!! count($lastChapter) > 0 ? $lastChapter[0]->title : '' !!}</span>
                         </span>
                     </div>
                     <div class="ellipsis is-ellipsis-1 is-fixed-bottom">

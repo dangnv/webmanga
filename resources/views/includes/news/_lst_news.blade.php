@@ -7,12 +7,12 @@
             <div class="media-content">
                 <div class="content">
                     <div class="mtitle">
-                        {{ $item->title }}
+                        {!! $item->title !!}
                     </div>
                     <p class="msub">{{ $item->public_at ? \Carbon\Carbon::create($item->public_at)->format('M d Y') : '' }}</p>
                 </div>
                 <div class="ellipsis is-ellipsis-1 is-fixed-bottom">
-                    <p>{{ $item->description }}</p>
+                    <p>{!! $item->description !!}</p>
                 </div>
             </div>
         </div>

@@ -10,8 +10,7 @@
                         data-key="{{ $key }}"
                         id="option-chapter-{{ $key }}"
                         {{ ($item->id == $chapter->id) ? 'selected' : '' }}>
-                    {{ $item->title }}
-                </option>
+                    {!! $item->title !!}
             @endforeach
         </select>
     </div>

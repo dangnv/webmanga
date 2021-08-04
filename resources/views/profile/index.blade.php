@@ -35,8 +35,7 @@
                         <img src="{{ $item->post->thumbnail }}" />
                     </a>
                     <div class="bookmark-post-info">
-                        <a href="{{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $item->post->slug]) }}"><h3>{{ $item->post->title }}</h3></a>
-                        <p>{{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}</p>
+                        <a href="{{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $item->post->slug]) }}"><h3>{!! $item->post->title !!}
                     </div>
                     <div class="bookmark-post-remove">
                         <i onclick="$('#form-remove-bookmark-{{ $item->post->slug }}').submit()" class="fa fa-trash-o fa-4" aria-hidden="true"></i>

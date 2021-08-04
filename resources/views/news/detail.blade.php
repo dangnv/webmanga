@@ -18,7 +18,7 @@
     @endif
 @endsection
 @section('title')
-    {{ !empty($article) ? $article->title : 'Article detail' }}
+    {!! !empty($article) ? $article->title : 'Article detail' !!}
 @endsection
 @section('css_files')
     <link rel="stylesheet" href="{{ asset('css/news/detail.css') }}?v={{ time() }}">

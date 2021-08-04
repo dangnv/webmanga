@@ -2,8 +2,8 @@
 @section('content-page')
     @if (!empty($images))
         <div class="row col-12 box-chapter-title">
-            <h2>{{ $post->title }}</h2>
-            <h3>{{ $chapter->title }}</h3>
+            <h2>{!! $post->title !!}</h2>
+            <h3>{!! $chapter->title !!}</h3>
         </div>
         @include('includes.chapter._button', ['post' => $post, 'chapter' => $chapter])
         <div class="row col-12 box-list-images">
@@ -20,7 +20,7 @@
     @endif
 @endsection
 @section('title')
-    {{ !empty($chapter) ? $chapter->title : 'Chapter detail' }}
+    {!! !empty($chapter) ? $chapter->title : 'Chapter detail' !!}
 @endsection
 @section('css_files')
     <link rel="stylesheet" href="{{ asset('css/post/chapter.css') }}?v={{ time() }}">
