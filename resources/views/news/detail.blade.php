@@ -21,5 +21,5 @@
     {{ !empty($article) ? $article->title : 'Article detail' }}
 @endsection
 @section('css_files')
-    <link rel="stylesheet" href="{{ asset('css/news/detail.css') }}?v={{ env('STATIC_VER', '20210802') }}">
+    <link rel="stylesheet" href="{{ asset('css/news/detail.css') }}?v={{ time() }}">
 @endsection

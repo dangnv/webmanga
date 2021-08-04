@@ -200,5 +200,5 @@
     {{ trans('text.newest.title') }}
 @endsection
 @section('css_files')
-    <link rel="stylesheet" href="{{ asset('css/post/detail.css') }}?v={{ env('STATIC_VER', '20210726') }}">
+    <link rel="stylesheet" href="{{ asset('css/post/detail.css') }}?v={{ time() }}">
 @endsection

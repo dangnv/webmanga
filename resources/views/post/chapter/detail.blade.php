@@ -23,8 +23,8 @@
     {{ !empty($chapter) ? $chapter->title : 'Chapter detail' }}
 @endsection
 @section('css_files')
-    <link rel="stylesheet" href="{{ asset('css/post/chapter.css') }}?v={{ env('STATIC_VER', '20210726') }}">
+    <link rel="stylesheet" href="{{ asset('css/post/chapter.css') }}?v={{ time() }}">
 @endsection
 @section('js_files')
-    <script src="{{ asset('js/chapter.js') }}?{{ env('STATIC_VER', '20210802') }}"></script>
+    <script src="{{ asset('js/chapter.js') }}?v={{ time() }}"></script>
 @endsection
