@@ -20,8 +20,9 @@ return [
         "lbl_news" => "Article",
     ],
     "global" => [
-      "btn_search" => "Search",
-      "btn_see_more" => "See more"
+        "btn_search" => "Search",
+        "btn_see_more" => "See more",
+        "lbl_not_found" => "404 Not found"
     ],
     "home" => [
         "title" => "Home",
@@ -47,10 +48,10 @@ return [
         "title" => 'All manga'
     ],
     "news" => [
-        "title" => 'Latest'
+        "title" => 'News'
     ],
     "category" => [
-        "title" => 'Manga by',
+        "title" => 'Manga by :category',
         "recommend" => "Recommend for you"
     ]
 ];

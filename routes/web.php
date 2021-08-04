@@ -30,7 +30,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/news', 'HomeController@news')->name('night.news.index');
         Route::get('/news/{slug}', 'HomeController@newsDetail')->name('night.news.detail');
 
-        Route::get('/profile', 'HomeController@profile')->name('night.profile.index');
+        Route::group(['middleware' => 'auth'], function () {
+            Route::get('/profile', 'HomeController@profile')->name('night.profile.index');
+        });
     });
 
     /*light*/
@@ -49,16 +51,18 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/news', 'HomeController@news')->name('news.index');
     Route::get('/news/{slug}', 'HomeController@newsDetail')->name('news.detail');
 
-    Route::get('/profile', 'HomeController@profile')->name('profile.index');
-
     Route::get('/auth/redirect/{provider}', 'SocialController@redirect')->name('social.login');
     Route::get('/callback/{provider}', 'SocialController@callback');
 
-    Route::post('/comment/post', 'HomeController@postComment')->name('comment.post');
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/profile', 'HomeController@profile')->name('profile.index');
 
-    Route::post('bookmark/post', 'HomeController@postBookmark')->name('bookmark.post');
-    Route::post('bookmark/remove', 'HomeController@removeBookmark')->name('post.bookmark.remove');
-    Route::post('bookmark/remove/all', 'HomeController@removeAllBookmark')->name('post.bookmark.remove.all');
+        Route::post('/comment/post', 'HomeController@postComment')->name('comment.post');
+
+        Route::post('bookmark/post', 'HomeController@postBookmark')->name('bookmark.post');
+        Route::post('bookmark/remove', 'HomeController@removeBookmark')->name('post.bookmark.remove');
+        Route::post('bookmark/remove/all', 'HomeController@removeAllBookmark')->name('post.bookmark.remove.all');
+    });
 });
 
 Auth::routes();

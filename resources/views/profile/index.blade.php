@@ -59,7 +59,7 @@
     </div>
 @endsection
 @section('title')
-    {{ trans('text.latest.title') }}
+    {{ $user->name }}
 @endsection
 @section('css_files')
     <link rel="stylesheet" href="{{ asset('css/profile/index.css') }}?v={{ time() }}">

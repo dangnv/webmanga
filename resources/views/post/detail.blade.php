@@ -67,11 +67,12 @@
                 </div>
                 <div class="row box-socials-share">
                     <div class="socials-share">
-                        <a class="bg-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" target="_blank"><span class="fa fa-facebook"></span></a>
-                        <a class="bg-twitter" href="https://twitter.com/share?text={{ $post->title }}&url={{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" target="_blank"><span class="fa fa-twitter"></span></a>
-                        <a class="bg-google-plus" href="https://plus.google.com/share?url={{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" target="_blank"><span class="fa fa-google-plus"></span></a>
-                        <a class="bg-pinterest" href="https://www.pinterest.com/pin/create/button/?url={{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}&media={{ $post->thumbnail }}&description={{ $post->title }}" target="_blank"><span class="fa fa-pinterest"></span></a>
-                        <a class="bg-email" href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to&su={{ $post->title }}&body={{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" target="_blank"><span class="fa fa-envelope"></span></a>
+                        @php $urlToShare = route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]); @endphp
+                        <a class="bg-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ $urlToShare }}" target="_blank"><span class="fa fa-facebook"></span></a>
+                        <a class="bg-twitter" href="https://twitter.com/share?text={{ $post->title }}&url={{ $urlToShare }}" target="_blank"><span class="fa fa-twitter"></span></a>
+                        <a class="bg-google-plus" href="https://plus.google.com/share?url={{ $urlToShare }}" target="_blank"><span class="fa fa-google-plus"></span></a>
+                        <a class="bg-pinterest" href="https://www.pinterest.com/pin/create/button/?url={{ $urlToShare }}&media={{ $post->thumbnail }}&description={{ $post->title }}" target="_blank"><span class="fa fa-pinterest"></span></a>
+                        <a class="bg-email" href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to&su={{ $post->title }}&body={{ $urlToShare }}" target="_blank"><span class="fa fa-envelope"></span></a>
                     </div>
                 </div>
             </div>
@@ -197,7 +198,7 @@
     @endif
 @endsection
 @section('title')
-    {{ trans('text.newest.title') }}
+    {{ !empty($post) ? $post->title : trans('text.global.lbl_not_found') }}
 @endsection
 @section('css_files')
     <link rel="stylesheet" href="{{ asset('css/post/detail.css') }}?v={{ time() }}">
