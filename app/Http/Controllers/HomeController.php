@@ -142,9 +142,10 @@ class HomeController extends BaseController
             $itemPerPage = Post::ITEM_PER_PAGE;
             $page = $request->get('page') ?? Post::CURRENT_PAGE;
             $limit = $itemPerPage * ($page - 1);
-            $totalPages = ceil(Post::count() / $itemPerPage);
+            $totalPages = ceil(Post::where('status', Post::STATUS_ON_GOING)->count() / $itemPerPage);
 
             $posts = Post::select('*', DB::raw('(select published_date from chapters where post_id = posts.id LIMIT 1) as published_date'))
+                        ->where('status', Post::STATUS_ON_GOING)
                         ->orderBy('published_date', 'desc')
                         ->skip($limit)
                         ->take($itemPerPage)
@@ -468,7 +469,7 @@ class HomeController extends BaseController
         $post = Post::getPostBySlug($post_slug);
         if (!empty($post)) {
             $chapter = Chapter::getChapterBySlug($chapter_slug);
-            if (!empty($chapter)) {
+            if (!empty($chapter) && $chapter->post_id == $post->id) {
                 $images = Image::where('chapter_id', $chapter->id)->get();
 
                 return $this->renderView($request, 'post.chapter.detail', [
@@ -481,6 +482,8 @@ class HomeController extends BaseController
                 ]);
             }
         }
+
+        return redirect()->back();
     }
 
     /**

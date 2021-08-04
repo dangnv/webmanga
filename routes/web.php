@@ -23,6 +23,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/completed', 'HomeController@completed')->name('night.post.completed');
         Route::get('/newest', 'HomeController@newest')->name('night.post.newest');
         Route::get('/all', 'HomeController@all')->name('night.post.all');
+        Route::get('/genre/{slug}', 'HomeController@postByCategory')->name('night.post.category');
         Route::get('/manga/{slug}', 'HomeController@detailPost')->name('night.post.detail');
         Route::get('/chapter/{post_slug}/{chapter_slug}', 'HomeController@detailChapter')->name('night.chapters.detail');
 

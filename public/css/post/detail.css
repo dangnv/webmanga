@@ -20,6 +20,14 @@
     margin-right: 0.5rem !important;
 }
 
+.box-comment {
+    width: 100%;
+}
+
+.box-comment img {
+    margin-right: 1em;
+}
+
 .post-comments h2,
 .post-overview h2 {
     font-size: 1.25rem;

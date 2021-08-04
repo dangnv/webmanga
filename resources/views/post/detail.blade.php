@@ -158,9 +158,9 @@
                 <p class="no-comments">No comment!</p>
             @else
                 @foreach($post->comments as $comment)
-                    <div class="row col-12">
+                    <div class="row box-comment">
                         <img src="{{ $comment->user->avatar }}">
-                        <div class="col-10">
+                        <div>
                             <span>{{ $comment->user->name }}</span>
                             <br>
                             <span>{{ $comment->content }}</span>

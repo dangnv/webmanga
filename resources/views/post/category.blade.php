@@ -4,7 +4,7 @@
         @include('includes._not_found')
     @else
         <div class="row col-12">
-            <h1>{{ trans('text.category.title') }}</h1>
+            <h1>{{ trans('text.category.title') }} {{ $category->name }}</h1>
         </div>
     @endif
     @include('includes._lst_posts', ['posts' => $posts])
@@ -17,5 +17,5 @@
     ])
 @endsection
 @section('title')
-    {{ trans('text.category.title') }}
+    {{ trans('text.category.title') }} {{ !empty($category) ? '-'.$category->name : '' }}
 @endsection

@@ -50,7 +50,7 @@ return [
         "title" => 'Latest'
     ],
     "category" => [
-        "title" => 'Category',
+        "title" => 'Manga by',
         "recommend" => "Recommend for you"
     ]
 ];
