@@ -66,9 +66,9 @@
         <div class="card-body">
             <div class="col-12 container">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a class="social-icon text-center" href="{{ route('about') }}">About Us</a> |</li>
-                    <li class="list-inline-item"><a class="social-icon text-center" href="{{ route('term') }}">Term of Use</a> |</li>
-                    <li class="list-inline-item"><a class="social-icon text-center" href="{{ route('privacy') }}">Privacy Policy</a> |</li>
+                    <li class="list-inline-item"><a class="social-icon text-center" href="{{ route(($is_night_mode ? 'night.' : '').'about') }}">About Us</a> |</li>
+                    <li class="list-inline-item"><a class="social-icon text-center" href="{{ route(($is_night_mode ? 'night.' : '').'term') }}">Term of Use</a> |</li>
+                    <li class="list-inline-item"><a class="social-icon text-center" href="{{ route(($is_night_mode ? 'night.' : '').'privacy') }}">Privacy Policy</a> |</li>
                     <li class="list-inline-item"><a class="social-icon text-center" href="{{ env('APP_REPORT_LINk', '#') }}" target="_blank">Report error manga</a></li>
                 </ul>
             </div>
