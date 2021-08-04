@@ -30,6 +30,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/news', 'HomeController@news')->name('night.news.index');
         Route::get('/news/{slug}', 'HomeController@newsDetail')->name('night.news.detail');
 
+        Route::get('/about', 'HomeController@about')->name('night.about');
+        Route::get('/term', 'HomeController@term')->name('night.term');
+        Route::get('/privacy', 'HomeController@privacy')->name('night.privacy');
+
         Route::group(['middleware' => 'auth'], function () {
             Route::get('/profile', 'HomeController@profile')->name('night.profile.index');
         });
@@ -53,6 +57,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     Route::get('/auth/redirect/{provider}', 'SocialController@redirect')->name('social.login');
     Route::get('/callback/{provider}', 'SocialController@callback');
+
+    Route::get('/about', 'HomeController@about')->name('about');
+    Route::get('/term', 'HomeController@term')->name('term');
+    Route::get('/privacy', 'HomeController@privacy')->name('privacy');
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/profile', 'HomeController@profile')->name('profile.index');

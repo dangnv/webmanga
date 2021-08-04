@@ -66,10 +66,10 @@
         <div class="card-body">
             <div class="col-12 container">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a class="social-icon text-center" href="#">About Us</a> |</li>
-                    <li class="list-inline-item"><a class="social-icon text-center" href="#">Term of Use</a> |</li>
-                    <li class="list-inline-item"><a class="social-icon text-center" href="#">Privacy Policy</a> |</li>
-                    <li class="list-inline-item"><a class="social-icon text-center" href="#">Report error manga</a></li>
+                    <li class="list-inline-item"><a class="social-icon text-center" href="{{ route('about') }}">About Us</a> |</li>
+                    <li class="list-inline-item"><a class="social-icon text-center" href="{{ route('term') }}">Term of Use</a> |</li>
+                    <li class="list-inline-item"><a class="social-icon text-center" href="{{ route('privacy') }}">Privacy Policy</a> |</li>
+                    <li class="list-inline-item"><a class="social-icon text-center" href="{{ env('APP_REPORT_LINk', '#') }}" target="_blank">Report error manga</a></li>
                 </ul>
             </div>
             <h5 class="card-title">Why You Should Read Manga Online at {{ env('APP_TITLE_PAGE') }} ?</h5>

@@ -520,4 +520,32 @@ class HomeController extends BaseController
             'is_show_categories' => false
         ]);
     }
+
+    /**
+     * Footer menu
+     */
+    public function about(Request $request)
+    {
+        return $this->renderView($request, 'home.about', [
+            'is_show_popular_posts' => false,
+            'is_show_tags' => false,
+            'is_show_categories' => false
+        ]);
+    }
+    public function term(Request $request)
+    {
+        return $this->renderView($request, 'home.term', [
+            'is_show_popular_posts' => false,
+            'is_show_tags' => false,
+            'is_show_categories' => false
+        ]);
+    }
+    public function privacy(Request $request)
+    {
+        return $this->renderView($request, 'home.privacy', [
+            'is_show_popular_posts' => false,
+            'is_show_tags' => false,
+            'is_show_categories' => false
+        ]);
+    }
 }

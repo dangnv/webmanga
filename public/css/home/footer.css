@@ -1,0 +1,13 @@
+.footer-box-title h2 {
+    font-size: 2rem;
+    margin-top: 2rem;
+}
+
+.footer-box-title, .footer-box-content {
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+}
+
+.footer-box-content h3 {
+    font-size: 1.5rem;
+}
