@@ -34,7 +34,23 @@ body.night-mode .row.footer .card.col-12 {
     background: transparent;
 }
 
+body.night-mode > .row:first-child {
+    background: #343a40;
+}
 /*End night mode*/
+
+body > .row:first-child {
+    height: 3.5rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 9999;
+}
+
+body > .row:nth-child(2) {
+    margin-top: 3.5rem;
+}
 
 body>.row:nth-child(2) .col-md-4 {
     padding-left: 0;

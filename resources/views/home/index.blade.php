@@ -19,3 +19,14 @@
 @section('title')
     {{ trans('text.home.title') }}
 @endsection
+
+@section('css_files')
+    <style>
+        html, body {
+            overflow-x: hidden;
+        }
+        body {
+            position: relative
+        }
+    </style>
+@endsection
