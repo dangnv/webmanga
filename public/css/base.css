@@ -113,10 +113,20 @@ body>.row:last-child {
     padding: .75em 0 .75em 0.5em;
     border-radius: 8px;
     margin: 10px 0 10px 0;
+    display: flex;
+    width: 50%;
+}
+
+.sidebar-popular-posts .box-post-detail .box-info,
+.content-part .box-on-going .post-info {
+    margin-left: 1rem;
+    max-width: calc(100% - 100px);
 }
 
 .sidebar-popular-posts .box-post-detail {
     padding: .75em 0 .75em 0;
+    display: flex;
+    width: 100%;
 }
 
 .content-part .col-4 {
@@ -308,6 +318,10 @@ body>.row:last-child {
     .box-news img {
         width: 112px !important;
         height: 75px !important;
+    }
+
+    .content-part .box-on-going {
+        width: 100%;
     }
 }
 
