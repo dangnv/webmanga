@@ -16,7 +16,7 @@ class CreateChaptersTable extends Migration
         Schema::create('chapters', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
-            $table->string('slug', 512)->unique();
+            $table->string('slug', 512);
             $table->index('title');
             $table->foreignId('post_id')
                 ->constrained('posts')
