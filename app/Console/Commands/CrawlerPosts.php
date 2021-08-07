@@ -12,6 +12,7 @@ use App\Models\Tag;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CrawlerPosts extends Command
 {
@@ -46,6 +47,7 @@ class CrawlerPosts extends Command
      */
     public function handle()
     {
+        Log::info('start job');
         $link = 'https://manganato.com/genre-all';
         if (!empty($link)) {
             try {
