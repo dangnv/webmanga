@@ -93,7 +93,14 @@ class CrawlerPosts extends Command
 
                                         $linkToPostDetail = $a->getAttribute('href');
                                         if (Post::select('id')->where('slug', self::getSlugFromLink($linkToPostDetail))->count() > 0) {
-                                            Log::info("Post old. Stop");
+                                            Log::info("Post old. Check update");
+                                            if ($post->find('span.genres-item-time')) {
+                                                $timeLastUpdate = $post->find('span.genres-item-time')[0]->innertext;
+                                                if (Carbon::create($timeLastUpdate) > Carbon::now()->format('Y-m-d')) {
+                                                    $postDB = Post::getPostBySlug(self::getSlugFromLink($linkToPostDetail));
+                                                    self::updatePostOld($linkToPostDetail, $postDB->id);
+                                                }
+                                            }
                                             break;
                                         }
                                         $post = self::getDetailInfo($linkToPostDetail);
@@ -121,12 +128,14 @@ class CrawlerPosts extends Command
                 Log::info("Exception create post = {$exception->getMessage()}");
             }
         }
+        Log::info("End job crawler data");
     }
 
     public static function getSlugFromLink ($link)
     {
         $linkArr = explode('/', $link);
-        return $linkArr[count($linkArr) - 1];
+        $slugArr = explode('?', $linkArr[count($linkArr) - 1]);
+        return $slugArr[0];
     }
 
     /**
@@ -151,7 +160,6 @@ class CrawlerPosts extends Command
             $savefile = fopen($imgPath, 'w');
             fwrite($savefile, $html);
             fclose($savefile);
-            Log::info("Lưu ảnh thành công!");
             return "/{$storage}/{$nameImage}";
         } catch (\Exception $exception) {
             Log::info("Exception download iamge = {$exception->getMessage()}");
@@ -322,6 +330,35 @@ class CrawlerPosts extends Command
                 Log::info("Exception for create chapters: {$exception->getMessage()}");
                 continue;
             }
+        }
+    }
+
+    public static function updatePostOld ($linkDetail, $postID) {
+        $html = file_get_html($linkDetail);
+
+        /** Get list chapters */
+        if ($html->find('ul.row-content-chapter')) {
+            $lstNewChapters = [];
+            $listChaptersLink = $html->find('ul.row-content-chapter')[0]->find('li');
+            foreach ($listChaptersLink as $chapterBox) {
+                if ($chapterBox->find('a')) {
+                    $chapterA = $chapterBox->find('a')[0];
+                    $chapter['title'] = $chapterA->innertext;
+                    $chapter['link'] = $chapterA->getAttribute('href');
+                    $chapter['slug'] = self::getSlugFromLink($chapter['link']);
+                    if ($chapterBox->find('span.chapter-time')) {
+                        $chapter['published_date'] = Carbon::create($chapterBox->find('span.chapter-time')[0]->getAttribute('title'));
+                        if ($chapter['published_date']) { $chapter['published_date'] = $chapter['published_date']->format('Y-m-d H:i:m'); }
+                    }
+                    $chapterCheck = Chapter::getChapterBySlug($chapter['slug'], $postID);
+                    if (empty($chapterCheck)) {
+                        break;
+                    }
+                    $lstNewChapters[] = $chapter;
+                }
+            }
+
+            self::createLstChapters($postID, $lstNewChapters);
         }
     }
 }
