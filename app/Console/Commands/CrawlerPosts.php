@@ -203,6 +203,7 @@ class CrawlerPosts extends Command
                             $value = $tr->find('td.table-value')[0];
                             $post['status'] = $value->innertext == 'Ongoing' ? Post::STATUS_ON_GOING : Post::STATUS_COMPLETED;
                         }
+                        $post['categories'] = [];
                         /** @get category */
                         if (strpos($key, 'Genres') !== false) {
                             $value = $tr->find('td.table-value')[0];
@@ -218,7 +219,7 @@ class CrawlerPosts extends Command
             $titleDesc = $description->find('h3')[0]->outertext;
             $post['description'] = str_replace($titleDesc, '', $description->innertext);
         }
-
+        $post['chapters'] = [];
         /** Get list chapters */
         if ($html->find('ul.row-content-chapter')) {
             $listChaptersLink = $html->find('ul.row-content-chapter')[0]->find('li');
