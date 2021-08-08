@@ -16,11 +16,12 @@ class Chapter extends Model
 
     /**
      * @param $slug
+     * @param $postId
      * @return array|mixed
      */
-    public static function getChapterBySlug($slug)
+    public static function getChapterBySlug($slug, $postId)
     {
-        $chapter = Chapter::where('slug', $slug)->get();
+        $chapter = Chapter::where('post_id', $postId)->where('slug', $slug)->get();
         if (count($chapter)) { return $chapter[0]; }
 
         return  [];

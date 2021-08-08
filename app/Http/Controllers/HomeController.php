@@ -372,6 +372,9 @@ class HomeController extends BaseController
                 ->orderBy('published_date', 'desc')
                 ->take(20)
                 ->get();
+        } else {
+            $post->views = $post->views + 1;
+            $post->save();
         }
 
         return $this->renderView($request, 'post.detail', $data);
@@ -468,7 +471,7 @@ class HomeController extends BaseController
     {
         $post = Post::getPostBySlug($post_slug);
         if (!empty($post)) {
-            $chapter = Chapter::getChapterBySlug($chapter_slug);
+            $chapter = Chapter::getChapterBySlug($chapter_slug, $post->id);
             if (!empty($chapter) && $chapter->post_id == $post->id) {
                 $images = Image::where('chapter_id', $chapter->id)->get();
 

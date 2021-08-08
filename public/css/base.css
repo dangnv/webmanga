@@ -324,7 +324,7 @@ body>.row:last-child {
 }
 
 @media screen and (min-width: 1408px) {
-    body {
+    body > .row:first-child, body {
         max-width: 1344px;
         margin: auto;
     }
