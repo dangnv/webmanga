@@ -6,6 +6,7 @@ use App\Models\Article;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CrawlerArticles extends Command
 {
@@ -40,21 +41,22 @@ class CrawlerArticles extends Command
      */
     public function handle()
     {
+        Log::info("Start crawler article");
         $link = 'https://mangayeh.com/news';
         try {
             $page = 1;
             do {
                 $linkByPage = "{$link}?page={$page}";
-                echo "\n\n\nPage = {$page}";
+                Log::info("Page = {$page}");
                 $html = file_get_html($linkByPage);
-                if ($html->find('div.column.is-9')) {
-                    $boxs = $html->find('div.column.is-9')[0]->find('div.column.is-12');
+                if ($html->find('div.column.is-9') && $html->find('div.column.is-9')[0]->find('div.columns.is-multiline')) {
+                    $boxs = $html->find('div.column.is-9')[0]->find('div.columns.is-multiline')[0]->find('div.column.is-12');
                     foreach ($boxs as $item) {
                         $name = '';
                         $publicAt = '';
                         $desc = '';
                         if ($item->find('img.bthumbnail')) {
-                            $thumbnail = $item->find('img.bthumbnail')[0]->getAttribute('data-src');
+                            $thumbnail = self::downloadImageFromLink($item->find('img.bthumbnail')[0]->getAttribute('data-src'));
                         } else {
                             break;
                         }
@@ -67,7 +69,7 @@ class CrawlerArticles extends Command
                         if ($item->find('div.ellipsis.is-ellipsis-2.is-fixed-bottom.is-hidden-mobile')) {
                             $desc = $item->find('div.ellipsis.is-ellipsis-2.is-fixed-bottom.is-hidden-mobile')[0]->innertext;
                         }
-                        echo "\n\nArticle, title = {$name}";
+                        Log::info("Article, title = {$name}");
                         if ($item->find('a.box.is-shadowless')) {
                             $linkDetailNew = "https://mangayeh.com".$item->find('a.box.is-shadowless')[0]->getAttribute('href');
                             $slug = explode('/', $linkDetailNew);
@@ -83,13 +85,16 @@ class CrawlerArticles extends Command
                                             'public_at' => Carbon::create($publicAt)->format('Y-m-d'),
                                             'slug' => $slug,
                                             'description' => $desc,
-                                            'content' => $content
+                                            'content' => str_replace('data-src', 'src', str_replace('src="/images/default.gif"', '', $content))
                                         ]);
-                                        echo "\nCreated";
+                                        Log::info("Created");
                                     }
                                 } catch (\Exception $exception) {
-                                    echo "\nException get detail new, ".$exception->getMessage();
+                                    Log::info("Exception get detail new, ".$exception->getMessage());
                                 }
+                            } else {
+                                Log::info('No new article');
+                                return true;
                             }
                         }
                     }
@@ -97,7 +102,34 @@ class CrawlerArticles extends Command
                 $page++;
             } while (1);
         } catch (\Exception $exception) {
-            echo "\nException: {$exception}";
+            Log::error("Exception: {$exception}");
+        }
+    }
+
+    public static function downloadImageFromLink ($link, string $storage = 'images/news', string $beforeName = '')
+    {
+        try {
+            if (empty($beforeName)) { $beforeName = time(); }
+            $linkArr = explode('/', $link);
+            $slug = $linkArr[count($linkArr) - 1];
+
+            $nameImage = $beforeName.$slug.'.png';
+            $imgPath = public_path("{$storage}/{$nameImage}");
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $link);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_REFERER, 'https://mangayeh.com');
+            $html = curl_exec($ch);
+            curl_close($ch);
+            $savefile = fopen($imgPath, 'w');
+            fwrite($savefile, $html);
+            fclose($savefile);
+            Log::info("Lưu ảnh news thành công!");
+            return "/{$storage}/{$nameImage}";
+        } catch (\Exception $exception) {
+            Log::info("Exception download image news = {$exception->getMessage()}");
+            return $link;
         }
     }
 }

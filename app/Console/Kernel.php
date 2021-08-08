@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CrawlerArticles;
 use App\Console\Commands\CrawlerPosts;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -14,7 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        CrawlerPosts::class
+        CrawlerPosts::class,
+        CrawlerArticles::class
     ];
 
     /**
@@ -27,6 +29,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('crawler:post')->monthlyOn(8, '05:39');
+        $schedule->command('crawler:news')->dailyAt('6:15');
     }
 
     /**
