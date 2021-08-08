@@ -58,16 +58,16 @@ class CrawlerPosts extends Command
                     if ($elLastPage) {
                         $pageLast = (int)str_replace(')', '', str_replace('LAST(', '', $elLastPage[0]->innertext));
                         if ($pageLast > 1) {
-                            echo "\nTotal page = {$pageLast}\n\n\n";
+                            Log::info("Total page = {$pageLast}");
                             for ($page = 1; $page <= $pageLast; $page++) {
                                 if ($page != 1) {
                                     $html = file_get_html("{$link}/{$page}?type=newest");
                                 }
-                                echo "\nPages = ".$page;
+                                Log::info("Pages = {$page}");
 
                                 /** Get list categories */
                                 if ($page == 1 && $html->find('div.panel-genres-list')) {
-                                    echo "\n Get list categories";
+                                    Log::info("Get list categories");
                                     $categoriesHtml = $html->find('div.panel-genres-list')[0]->find('a');
                                     if (count($categoriesHtml) > (Category::count() + 1)) {
                                         foreach ($categoriesHtml as $key => $category) {
@@ -75,7 +75,7 @@ class CrawlerPosts extends Command
                                                 $slugCate = self::getSlugFromLink($category->getAttribute('href'));
                                                 $nameCate = str_replace(' Manga', '', $category->getAttribute('title'));
                                                 $rsCreateCate = self::saveNewCategory($slugCate, $nameCate, true);
-                                                if ($rsCreateCate != -1) { echo "\nCreate category: {$nameCate}"; }
+                                                if ($rsCreateCate != -1) { Log::info("Create category: {$nameCate}"); }
                                             }
                                         }
                                     }
@@ -84,7 +84,7 @@ class CrawlerPosts extends Command
                                 /** Get list posts */
                                 if ($html->find('.content-genres-item')) {
                                     $boxPosts = $html->find('div.content-genres-item');
-                                    echo "\n Get list posts";
+                                    Log::info("Get list posts");
 
                                     foreach ($boxPosts as $post) {
                                         if (!$post->find('a.genres-item-img')) { continue; }
@@ -93,7 +93,7 @@ class CrawlerPosts extends Command
 
                                         $linkToPostDetail = $a->getAttribute('href');
                                         if (Post::select('id')->where('slug', self::getSlugFromLink($linkToPostDetail))->count() > 0) {
-                                            echo "\n\nPost old. Stop";
+                                            Log::info("Post old. Stop");
                                             break;
                                         }
                                         $post = self::getDetailInfo($linkToPostDetail);
@@ -110,7 +110,7 @@ class CrawlerPosts extends Command
                                         /** Create chapters list */
                                         self::createLstChapters($postCreated->id, $post['chapters']);
 
-                                        echo "\nCreated post {$post['title']}";
+                                        Log::info("Created post {$post['title']}");
                                     }
                                 }
                             }
@@ -118,7 +118,7 @@ class CrawlerPosts extends Command
                     }
                 }
             } catch (\Exception $exception) {
-                echo "\n\nException create post = {$exception->getMessage()}";
+                Log::info("Exception create post = {$exception->getMessage()}");
             }
         }
     }
@@ -151,10 +151,10 @@ class CrawlerPosts extends Command
             $savefile = fopen($imgPath, 'w');
             fwrite($savefile, $html);
             fclose($savefile);
-            echo "\nLưu ảnh thành công!\n";
+            Log::info("Lưu ảnh thành công!");
             return "/{$storage}/{$nameImage}";
         } catch (\Exception $exception) {
-            echo "\nException download iamge = {$exception->getMessage()}";
+            Log::info("Exception download iamge = {$exception->getMessage()}");
             return $link;
         }
     }
@@ -242,10 +242,8 @@ class CrawlerPosts extends Command
         foreach ($arrElements as $categoryName) {
             $name = $categoryName->innertext;
             $slug = self::getSlugFromLink($categoryName->getAttribute('href'));
-            echo "\n\nSlug cate = {$slug}";
 
             $cateId = self::saveNewCategory($slug, $name);
-            echo "\nResult find cateId = {$cateId}";
             if ($cateId > 0) {
                 $categories[] = $cateId;
             }
@@ -263,7 +261,6 @@ class CrawlerPosts extends Command
     public static function saveNewCategory($slug, $name, bool $onlyCheckExist = false)
     {
         try {
-            echo "\nsave new categpry, name = {$name}, slug = {$slug}";
             if (Category::select('id')->where('slug', $slug)->count() == 0) {
                 Category::create([
                     'slug' => $slug,
@@ -276,13 +273,11 @@ class CrawlerPosts extends Command
             $category = Category::select('id')->where('slug', $slug)->get();
 
             if (count($category) > 0) {
-                echo "\nVo day = ".$category[0]->id;
                 return $category[0]->id;
             }
-            echo "\n ra ngoai";
             return 0;
         } catch (\Exception $exception) {
-            echo "\nExceptions when create new category: {$exception->getMessage()}";
+            Log::info("Exceptions when create new category: {$exception->getMessage()}");
             return 0;
         }
     }
@@ -290,14 +285,13 @@ class CrawlerPosts extends Command
     public static function createCategoryPost ($postId, $cateIds) {
         try {
             foreach ($cateIds as $cateId) {
-                echo "\nCreate category post: {$postId}, {$cateId}";
                 PostCategory::create([
                     'category_id' => $cateId,
                     'post_id' => $postId,
                 ]);
             }
         } catch (\Exception $exception) {
-            echo "\n\nException create post category: {$exception->getMessage()}";
+            Log::info("Exception create post category: {$exception->getMessage()}");
         }
     }
 
@@ -308,7 +302,7 @@ class CrawlerPosts extends Command
     public static function createLstChapters ($postId, $chapters) {
         foreach ($chapters as $data) {
             try {
-                echo "\nCreate lst chapters {$data['title']}, {$data['link']}";
+                Log::info("Create lst chapters {$data['title']}, {$data['link']}");
                 $data['post_id'] = $postId;
                 $chapter = Chapter::create($data);
                 if ($chapter) {
@@ -317,7 +311,6 @@ class CrawlerPosts extends Command
                         $images = $html->find('.container-chapter-reader')[0]->find('img');
                         foreach ($images as $image) {
                             $url = $image->getAttribute('src');
-                            echo "\nUrl = {$url}";
                             Image::create([
                                 'chapter_id' => $chapter->id,
                                 'url' => self::downloadImageFromLink($url, "images/chapters")
@@ -326,7 +319,7 @@ class CrawlerPosts extends Command
                     }
                 }
             } catch (\Exception $exception) {
-                echo "\n\nException for create chapters: {$exception->getMessage()}";
+                Log::info("Exception for create chapters: {$exception->getMessage()}");
                 continue;
             }
         }
