@@ -41,7 +41,7 @@ class CrawlerArticles extends Command
      */
     public function handle()
     {
-        Log::info("Start crawler article");
+        Log::info("Start crawler article".env("STOP_CRAWLER_POST=true"));
         $link = 'https://mangayeh.com/news';
         try {
             $page = 1;
