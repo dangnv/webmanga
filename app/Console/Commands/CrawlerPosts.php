@@ -59,7 +59,7 @@ class CrawlerPosts extends Command
                         $pageLast = (int)str_replace(')', '', str_replace('LAST(', '', $elLastPage[0]->innertext));
                         if ($pageLast > 1) {
                             for ($page = 1; $page <= $pageLast; $page++) {
-                                if (env('STOP_CRAWLER_POST') !== null) { return true; }
+                                if (env('STOP_CRAWLER_POST')) { return true; }
                                 if (Post::count() > env('MAX_NEW_POST', 150)) { return true; }
                                 if ($page != 1) {
                                     $html = file_get_html("{$link}/{$page}?type=newest");
