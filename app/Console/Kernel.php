@@ -6,6 +6,7 @@ use App\Console\Commands\CrawlerArticles;
 use App\Console\Commands\CrawlerPosts;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -29,7 +30,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         if (!env('STOP_CRAWLER_POST')) {
-            $schedule->command('crawler:post')->dailyAt(env('TIME_AT_RUN_CRAWLER', '00:00'));
+            Log::info('start schedule for crawler');
+            $schedule->command('crawler:manganato')->dailyAt(env('TIME_AT_RUN_CRAWLER', '00:00'));
         }
         $schedule->command('crawler:news')->dailyAt('00:00');
     }
