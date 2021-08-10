@@ -9,6 +9,7 @@ use App\Models\PostTag;
 use App\Models\Tag;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CrawlerData extends Command
 {
@@ -43,6 +44,7 @@ class CrawlerData extends Command
      */
     public function handle()
     {
+        Log::info("Run it");
         $linkDomain = 'https://mangayeh.com';
         $typeGet = $this->option('type');
         if ($typeGet == 'post') {
