@@ -47,8 +47,8 @@ class CrawlerPosts extends Command
      */
     public function handle()
     {
-        if (env('STOP_CRAWLER_POST')) { return false; }
         Log::info('start job');
+        if (env('STOP_CRAWLER_POST')) { return false; }
         $link = 'https://manganato.com/genre-all';
         if (!empty($link)) {
             try {
