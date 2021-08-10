@@ -48,7 +48,6 @@ class CrawlerPosts extends Command
     public function handle()
     {
         Log::info('start job');
-        if (env('STOP_CRAWLER_POST')) { return false; }
         $link = 'https://manganato.com/genre-all';
         if (!empty($link)) {
             try {
@@ -60,7 +59,6 @@ class CrawlerPosts extends Command
                         $pageLast = (int)str_replace(')', '', str_replace('LAST(', '', $elLastPage[0]->innertext));
                         if ($pageLast > 1) {
                             for ($page = 1; $page <= $pageLast; $page++) {
-                                if (env('STOP_CRAWLER_POST')) { return false; }
                                 if (Post::count() > env('MAX_NEW_POST', 150)) { return true; }
                                 if ($page != 1) {
                                     $html = file_get_html("{$link}/{$page}?type=newest");
@@ -106,7 +104,6 @@ class CrawlerPosts extends Command
                                         $post['slug'] = self::getSlugFromLink($linkToPostDetail);
                                         $post['is_new'] = count($a->find('em.genres-item-new')) > 0 ? Post::STATUS_NEW : Post::STATUS_NOT_NEW;
                                         $post['views'] = 0;
-                                        Log::info("Create post ".env('STOP_CRAWLER_POST'));
                                         $postCreated = Post::create($post);
 
                                         /** Create post category */
