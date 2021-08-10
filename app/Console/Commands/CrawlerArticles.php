@@ -47,7 +47,6 @@ class CrawlerArticles extends Command
             $page = 1;
             do {
                 $linkByPage = "{$link}?page={$page}";
-                Log::info("Page = {$page}");
                 $html = file_get_html($linkByPage);
                 if ($html->find('div.column.is-9') && $html->find('div.column.is-9')[0]->find('div.columns.is-multiline')) {
                     $boxs = $html->find('div.column.is-9')[0]->find('div.columns.is-multiline')[0]->find('div.column.is-12');
@@ -69,7 +68,6 @@ class CrawlerArticles extends Command
                         if ($item->find('div.ellipsis.is-ellipsis-2.is-fixed-bottom.is-hidden-mobile')) {
                             $desc = $item->find('div.ellipsis.is-ellipsis-2.is-fixed-bottom.is-hidden-mobile')[0]->innertext;
                         }
-                        Log::info("Article, title = {$name}");
                         if ($item->find('a.box.is-shadowless')) {
                             $linkDetailNew = "https://mangayeh.com".$item->find('a.box.is-shadowless')[0]->getAttribute('href');
                             $slug = explode('/', $linkDetailNew);
@@ -87,7 +85,6 @@ class CrawlerArticles extends Command
                                             'description' => $desc,
                                             'content' => str_replace('data-src', 'src', str_replace('src="/images/default.gif"', '', $content))
                                         ]);
-                                        Log::info("Created");
                                     }
                                 } catch (\Exception $exception) {
                                     Log::info("Exception get detail new, ".$exception->getMessage());
@@ -125,10 +122,9 @@ class CrawlerArticles extends Command
             $savefile = fopen($imgPath, 'w');
             fwrite($savefile, $html);
             fclose($savefile);
-            Log::info("Lưu ảnh news thành công!");
             return "/{$storage}/{$nameImage}";
         } catch (\Exception $exception) {
-            Log::info("Exception download image news = {$exception->getMessage()}");
+            Log::error("Exception download image news = {$exception->getMessage()}");
             return $link;
         }
     }

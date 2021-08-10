@@ -58,16 +58,14 @@ class CrawlerPosts extends Command
                     if ($elLastPage) {
                         $pageLast = (int)str_replace(')', '', str_replace('LAST(', '', $elLastPage[0]->innertext));
                         if ($pageLast > 1) {
-                            Log::info("Total page = {$pageLast}");
                             for ($page = 1; $page <= $pageLast; $page++) {
+                                if (Post::count() > env('MAX_NEW_POST', 150)) { return true; }
                                 if ($page != 1) {
                                     $html = file_get_html("{$link}/{$page}?type=newest");
                                 }
-                                Log::info("Pages = {$page}");
 
                                 /** Get list categories */
                                 if ($page == 1 && $html->find('div.panel-genres-list')) {
-                                    Log::info("Get list categories");
                                     $categoriesHtml = $html->find('div.panel-genres-list')[0]->find('a');
                                     if (count($categoriesHtml) > (Category::count() + 1)) {
                                         foreach ($categoriesHtml as $key => $category) {
@@ -75,7 +73,6 @@ class CrawlerPosts extends Command
                                                 $slugCate = self::getSlugFromLink($category->getAttribute('href'));
                                                 $nameCate = str_replace(' Manga', '', $category->getAttribute('title'));
                                                 $rsCreateCate = self::saveNewCategory($slugCate, $nameCate, true);
-                                                if ($rsCreateCate != -1) { Log::info("Create category: {$nameCate}"); }
                                             }
                                         }
                                     }
@@ -84,7 +81,6 @@ class CrawlerPosts extends Command
                                 /** Get list posts */
                                 if ($html->find('.content-genres-item')) {
                                     $boxPosts = $html->find('div.content-genres-item');
-                                    Log::info("Get list posts");
 
                                     foreach ($boxPosts as $post) {
                                         if (!$post->find('a.genres-item-img')) { continue; }
@@ -93,7 +89,6 @@ class CrawlerPosts extends Command
 
                                         $linkToPostDetail = $a->getAttribute('href');
                                         if (Post::select('id')->where('slug', self::getSlugFromLink($linkToPostDetail))->count() > 0) {
-                                            Log::info("Post old. Check update");
                                             if ($post->find('span.genres-item-time')) {
                                                 $timeLastUpdate = $post->find('span.genres-item-time')[0]->innertext;
                                                 if (Carbon::create($timeLastUpdate) > Carbon::now()->format('Y-m-d')) {
@@ -116,8 +111,6 @@ class CrawlerPosts extends Command
 
                                         /** Create chapters list */
                                         self::createLstChapters($postCreated->id, $post['chapters']);
-
-                                        Log::info("Created post {$post['title']}");
                                     }
                                 }
                             }
@@ -311,7 +304,6 @@ class CrawlerPosts extends Command
     public static function createLstChapters ($postId, $chapters) {
         foreach ($chapters as $data) {
             try {
-                Log::info("Create lst chapters {$data['title']}, {$data['link']}");
                 $data['post_id'] = $postId;
                 $chapter = Chapter::create($data);
                 if ($chapter) {
