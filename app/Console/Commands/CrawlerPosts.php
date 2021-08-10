@@ -51,6 +51,7 @@ class CrawlerPosts extends Command
         $link = 'https://manganato.com/genre-all';
         if (!empty($link)) {
             try {
+                Log::debug("Start crawler");
                 $html = file_get_html("{$link}?type=newest");
                 /** Get number of pages */
                 if ($html->find('.panel-page-number')) {
@@ -104,6 +105,8 @@ class CrawlerPosts extends Command
                                         $post['slug'] = self::getSlugFromLink($linkToPostDetail);
                                         $post['is_new'] = count($a->find('em.genres-item-new')) > 0 ? Post::STATUS_NEW : Post::STATUS_NOT_NEW;
                                         $post['views'] = 0;
+
+                                        Log::debug("Created post");
                                         $postCreated = Post::create($post);
 
                                         /** Create post category */
