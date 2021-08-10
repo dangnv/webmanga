@@ -106,6 +106,7 @@ class CrawlerPosts extends Command
                                         $post['slug'] = self::getSlugFromLink($linkToPostDetail);
                                         $post['is_new'] = count($a->find('em.genres-item-new')) > 0 ? Post::STATUS_NEW : Post::STATUS_NOT_NEW;
                                         $post['views'] = 0;
+                                        Log::info("Create post ".env('STOP_CRAWLER_POST'));
                                         $postCreated = Post::create($post);
 
                                         /** Create post category */
