@@ -21,7 +21,7 @@ class CrawlerPosts extends Command
      *
      * @var string
      */
-    protected $signature = 'crawler:post';
+    protected $signature = 'crawler:manganato';
 
     /**
      * The console command description.
