@@ -84,6 +84,7 @@ class CrawlerPosts extends Command
                                     $boxPosts = $html->find('div.content-genres-item');
 
                                     foreach ($boxPosts as $post) {
+                                        if (Post::count() > env('MAX_NEW_POST', 150)) { return true; }
                                         if (!$post->find('a.genres-item-img')) { continue; }
                                         $a = $post->find('a.genres-item-img')[0];
                                         if (!$a->find('img')) { continue; }
