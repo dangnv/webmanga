@@ -60,7 +60,7 @@ class CrawlerPosts extends Command
                         $pageLast = (int)str_replace(')', '', str_replace('LAST(', '', $elLastPage[0]->innertext));
                         if ($pageLast > 1) {
                             for ($page = 1; $page <= $pageLast; $page++) {
-                                if (Post::count() > env('MAX_NEW_POST', 150)) { return true; }
+                                if (Post::count() > env('MAX_NEW_POST', 100)) { return true; }
                                 if ($page != 1) {
                                     $html = file_get_html("{$link}/{$page}?type=newest");
                                 }
@@ -84,7 +84,8 @@ class CrawlerPosts extends Command
                                     $boxPosts = $html->find('div.content-genres-item');
 
                                     foreach ($boxPosts as $post) {
-                                        if (Post::count() > env('MAX_NEW_POST', 150)) { return true; }
+                                        Log::debug("number of posts = ".Post::count());
+                                        if (Post::count() > env('MAX_NEW_POST', 100)) { Log::debug("DONE"); return true; }
                                         if (!$post->find('a.genres-item-img')) { continue; }
                                         $a = $post->find('a.genres-item-img')[0];
                                         if (!$a->find('img')) { continue; }
