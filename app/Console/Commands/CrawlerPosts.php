@@ -59,8 +59,10 @@ class CrawlerPosts extends Command
                     if ($elLastPage) {
                         $pageLast = (int)str_replace(')', '', str_replace('LAST(', '', $elLastPage[0]->innertext));
                         if ($pageLast > 1) {
+                            $checkNewPost = true;
                             for ($page = 1; $page <= $pageLast; $page++) {
-                                if (Post::count() > env('MAX_NEW_POST', 100)) { return true; }
+                                if (!$checkNewPost) { break; }
+                                if (Post::count() > 2000) { break; }
                                 if ($page != 1) {
                                     $html = file_get_html("{$link}/{$page}?type=newest");
                                 }
@@ -85,7 +87,7 @@ class CrawlerPosts extends Command
 
                                     foreach ($boxPosts as $post) {
                                         Log::debug("number of posts = ".Post::count());
-                                        if (Post::count() > env('MAX_NEW_POST', 100)) { Log::debug("DONE"); return true; }
+                                        if (Post::count() > 2000) { Log::debug("DONE"); break; }
                                         if (!$post->find('a.genres-item-img')) { continue; }
                                         $a = $post->find('a.genres-item-img')[0];
                                         if (!$a->find('img')) { continue; }
@@ -99,6 +101,7 @@ class CrawlerPosts extends Command
                                                     self::updatePostOld($linkToPostDetail, $postDB->id);
                                                 }
                                             }
+                                            $checkNewPost = false;
                                             break;
                                         }
                                         $post = self::getDetailInfo($linkToPostDetail);
