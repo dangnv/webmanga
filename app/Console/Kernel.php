@@ -31,9 +31,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         if (!env('STOP_CRAWLER_POST')) {
             Log::info('start schedule for crawler');
-            $schedule->command('crawler:manganato')->dailyAt('0:0');
+            $schedule->command('crawler:manganato')->dailyAt('0:0')->runInBackground();
         }
-        $schedule->command('crawler:news')->dailyAt('0:0');
+        $schedule->command('crawler:news')->dailyAt('0:0')->runInBackground();
     }
 
     /**
