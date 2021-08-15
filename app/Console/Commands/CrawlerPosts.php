@@ -64,7 +64,7 @@ class CrawlerPosts extends Command
                             $checkNewPost = true;
                             for ($page = 1; $page <= $pageLast; $page++) {
                                 if (!$checkNewPost) { break; }
-                                if (Post::count() >= env('MAX_NEW_POST', 200)) { break; }
+                                if (Post::count() >= 200) { break; }
                                 if ($page != 1) {
                                     $html = file_get_html("{$link}/{$page}");
                                 }
@@ -89,7 +89,7 @@ class CrawlerPosts extends Command
 
                                     foreach ($boxPosts as $post) {
                                         Log::debug("number of posts = ".Post::count());
-                                        if (Post::count() >= env('MAX_NEW_POST', 200)) { Log::debug("DONE"); break; }
+                                        if (Post::count() >= 200) { Log::debug("DONE"); break; }
                                         if (!$post->find('a.genres-item-img')) { continue; }
                                         $a = $post->find('a.genres-item-img')[0];
                                         if (!$a->find('img')) { continue; }
