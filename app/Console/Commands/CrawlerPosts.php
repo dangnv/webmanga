@@ -10,9 +10,11 @@ use App\Models\PostCategory;
 use App\Models\PostTag;
 use App\Models\Tag;
 use Carbon\Carbon;
+use Faker\Provider\File;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class CrawlerPosts extends Command
 {
@@ -52,7 +54,7 @@ class CrawlerPosts extends Command
         if (!empty($link)) {
             try {
                 Log::debug("Start crawler");
-                $html = file_get_html("{$link}?type=newest");
+                $html = file_get_html("{$link}");
                 /** Get number of pages */
                 if ($html->find('.panel-page-number')) {
                     $elLastPage = $html->find('.panel-page-number')[0]->find('a.page-last');
@@ -62,9 +64,9 @@ class CrawlerPosts extends Command
                             $checkNewPost = true;
                             for ($page = 1; $page <= $pageLast; $page++) {
                                 if (!$checkNewPost) { break; }
-                                if (Post::count() > 2000) { break; }
+                                if (Post::count() >= env('MAX_NEW_POST', 200)) { break; }
                                 if ($page != 1) {
-                                    $html = file_get_html("{$link}/{$page}?type=newest");
+                                    $html = file_get_html("{$link}/{$page}");
                                 }
 
                                 /** Get list categories */
@@ -87,7 +89,7 @@ class CrawlerPosts extends Command
 
                                     foreach ($boxPosts as $post) {
                                         Log::debug("number of posts = ".Post::count());
-                                        if (Post::count() > 2000) { Log::debug("DONE"); break; }
+                                        if (Post::count() >= env('MAX_NEW_POST', 200)) { Log::debug("DONE"); break; }
                                         if (!$post->find('a.genres-item-img')) { continue; }
                                         $a = $post->find('a.genres-item-img')[0];
                                         if (!$a->find('img')) { continue; }
@@ -105,7 +107,7 @@ class CrawlerPosts extends Command
                                             break;
                                         }
                                         $post = self::getDetailInfo($linkToPostDetail);
-                                        $post['thumbnail'] = self::downloadImageFromLink($a->find('img')[0]->getAttribute('src')); /** Download thumbnail */
+                                        $post['thumbnail'] = self::downloadImageFromLink($a->find('img')[0]->getAttribute('src'), 'images/'.self::getSlugFromLink($linkToPostDetail)); /** Download thumbnail */
                                         $post['title'] = $a->getAttribute('title');
                                         $post['slug'] = self::getSlugFromLink($linkToPostDetail);
                                         $post['is_new'] = count($a->find('em.genres-item-new')) > 0 ? Post::STATUS_NEW : Post::STATUS_NOT_NEW;
@@ -150,7 +152,8 @@ class CrawlerPosts extends Command
         try {
             if (empty($beforeName)) { $beforeName = time(); }
             $nameImage = $beforeName.self::getSlugFromLink($link);
-            $imgPath = public_path("{$storage}/{$nameImage}");
+            Storage::makeDirectory("public/$storage");
+            $imgPath = public_path("storage/{$storage}/{$nameImage}");
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $link);
@@ -161,7 +164,7 @@ class CrawlerPosts extends Command
             $savefile = fopen($imgPath, 'w');
             fwrite($savefile, $html);
             fclose($savefile);
-            return "/{$storage}/{$nameImage}";
+            return "/storage/{$storage}/{$nameImage}";
         } catch (\Exception $exception) {
             Log::info("Exception download iamge = {$exception->getMessage()}");
             return $link;
@@ -320,9 +323,10 @@ class CrawlerPosts extends Command
                         $images = $html->find('.container-chapter-reader')[0]->find('img');
                         foreach ($images as $image) {
                             $url = $image->getAttribute('src');
+                            $postDB = Post::find($postId);
                             Image::create([
                                 'chapter_id' => $chapter->id,
-                                'url' => self::downloadImageFromLink($url, "images/chapters")
+                                'url' => self::downloadImageFromLink($url, 'images/'.$postDB->slug)
                             ]);
                         }
                     }
