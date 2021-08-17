@@ -52,7 +52,14 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
-
+        'mangamobi' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID', 'UCOBR7BHJSL6TWM0JZ6J'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY', 'a8f0MD/kPI/quEzuptbz36Kbz6G5nDiPMyB4yuk5'),
+            'endpoint' => env('AWS_URL', 'https://mangamobi.sg-sin1.upcloudobjects.com'),
+            'region' => env('AWS_DEFAULT_REGION', 'sg-sin1'),
+            'bucket' => env('AWS_BUCKET', 'images'),
+        ],
     ],
 
     /*
