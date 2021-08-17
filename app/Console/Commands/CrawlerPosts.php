@@ -122,6 +122,11 @@ class CrawlerPosts extends Command
 
                                         /** Create chapters list */
                                         self::createLstChapters($postCreated->id, $post['chapters']);
+
+                                        if (Post::count() >= 2) {
+                                            Log::debug("Done 2 post, stop");
+                                            return true;
+                                        }
                                     }
                                 }
                             }
