@@ -63,7 +63,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/privacy', 'HomeController@privacy')->name('privacy');
 
     Route::get('/manga/{post_id}/{chapter_id}/{post_slug}_{chapter_slug}_{image_id}.jpg', 'HomeController@renderImageChapter')->name('image.get');
-    Route::get('/manga/{time}/{slug}.jpg', 'HomeController@renderImagePost')->name('post.image.get');
+    Route::get('/thumbnail/{slug}.jpg', 'HomeController@renderImagePost')->name('post.image.get');
     Route::get('/article/{slug}.jpg', 'HomeController@renderImageNews')->name('article.image.get');
 
     Route::group(['middleware' => 'auth'], function () {

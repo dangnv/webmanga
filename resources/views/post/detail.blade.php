@@ -28,7 +28,7 @@
         <div class="row col-12 post-title-detail">
             <div class="box-info">
                 <div class="image">
-                    <img class="thumbnail" src="{{ route('post.image.get', ['time' => time(), 'slug' => $post->slug]) }}" />
+                    <img class="thumbnail" src="{{ route('post.image.get', ['slug' => $post->slug]) }}" />
                 </div>
                 <div class="post-title">
                     <h1 class="title is-4 mb-0">{!! $post->title !!}</h1>
@@ -71,7 +71,7 @@
                         <a class="bg-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ $urlToShare }}" target="_blank"><span class="fa fa-facebook"></span></a>
                         <a class="bg-twitter" href="https://twitter.com/share?text={!! $post->title !!}&url={{ $urlToShare }}" target="_blank"><span class="fa fa-twitter"></span></a>
                         <a class="bg-google-plus" href="https://plus.google.com/share?url={{ $urlToShare }}" target="_blank"><span class="fa fa-google-plus"></span></a>
-                        <a class="bg-pinterest" href="https://www.pinterest.com/pin/create/button/?url={{ $urlToShare }}&media={{ route('post.image.get', ['time' => time(), 'slug' => $post->slug]) }}&description={!! $post->title !!}" target="_blank"><span class="fa fa-pinterest"></span></a>
+                        <a class="bg-pinterest" href="https://www.pinterest.com/pin/create/button/?url={{ $urlToShare }}&media={{ route('post.image.get', ['slug' => $post->slug]) }}&description={!! $post->title !!}" target="_blank"><span class="fa fa-pinterest"></span></a>
                         <a class="bg-email" href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to&su={!! $post->title !!}&body={{ $urlToShare }}" target="_blank"><span class="fa fa-envelope"></span></a>
                     </div>
                 </div>

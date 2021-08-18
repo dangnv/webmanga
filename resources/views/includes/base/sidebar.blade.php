@@ -32,7 +32,7 @@
     @foreach($popular_posts as $post)
         <a href="{{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" class="row box-post-detail">
             <div class="image">
-                <img src="{{ route('post.image.get', ['time' => time(), 'slug' => $post->slug]) }}">
+                <img src="{{ route('post.image.get', ['slug' => $post->slug]) }}">
             </div>
             <div class="box-info">
                 <div class="media-content">

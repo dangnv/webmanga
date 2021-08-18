@@ -116,7 +116,7 @@ class CrawlerPosts extends Command
                                         Log::debug("Created post");
                                         $postCreated = new Post($post);
                                         $postCreated->save();
-                                        $postCreated['thumbnail'] = self::downloadImageFromLink($a->find('img')[0]->getAttribute('src'), "manga/".md5($postCreated->id)."/{$postCreated->slug}_".time());
+                                        $postCreated['thumbnail'] = self::downloadImageFromLink($a->find('img')[0]->getAttribute('src'), "manga/".$postCreated->id."/{$postCreated->slug}_".time());
                                         $postCreated->save();
 
                                         /** Create post category */
@@ -125,7 +125,7 @@ class CrawlerPosts extends Command
                                         /** Create chapters list */
                                         self::createLstChapters($postCreated->id, $post['chapters']);
 
-                                        if (Post::count() >= 2) {
+                                        if (Post::count() >= 10) {
                                             Log::debug("Done 2 post, stop");
                                             return true;
                                         }
