@@ -553,17 +553,49 @@ class HomeController extends BaseController
         ]);
     }
 
-    public function renderImage ($chapter_slug, $post_slug, $image_id, Request $request)
+    public function renderImageChapter ($post_id, $chapter_id, $post_slug, $chapter_slug, $image_id)
     {
         try {
             if (Image::where('id', $image_id)
                     ->whereIn('chapter_id',
-                        Chapter::where('slug', $chapter_slug)
-                            ->whereIn('post_id', Post::where('slug', $post_slug)->pluck('id'))
+                        Chapter::where('id', $chapter_id)->where('slug', $chapter_slug)
+                            ->whereIn('post_id',
+                                Post::where('id', $post_id)->where('slug', $post_slug)
+                                ->pluck('id'))
                         ->pluck('id'))
                 ->count() > 0) {
                 $image = Image::find($image_id);
                 $url = env('AWS_PUBLIC_LINK').$image->url;
+
+                return ImageManagerStatic::make($url)->response();
+            }
+        } catch (\Exception $exception) {
+            Log::error("Exception renderImage: {$exception->getMessage()}");
+        }
+        return "";
+    }
+
+    public function renderImagePost ($time, $post_slug)
+    {
+        try {
+            if (Post::where('slug', $post_slug)->count() > 0) {
+                $post = Post::getPostBySlug($post_slug);
+                $url = env('AWS_PUBLIC_LINK').$post->thumbnail;
+
+                return ImageManagerStatic::make($url)->response();
+            }
+        } catch (\Exception $exception) {
+            Log::error("Exception renderImage: {$exception->getMessage()}");
+        }
+        return "";
+    }
+
+    public function renderImageNews ($slug)
+    {
+        try {
+            if (Article::where('slug', $slug)->count() > 0) {
+                $article = Article::getArticleBySlug($slug);
+                $url = env('AWS_PUBLIC_LINK').$article->thumbnail;
 
                 return ImageManagerStatic::make($url)->response();
             }

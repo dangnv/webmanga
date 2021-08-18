@@ -152,13 +152,11 @@ class CrawlerPosts extends Command
     /**
      * @param $link
      * @param string $storage
-     * @param string $beforeName
      * @return string
      */
-    public static function downloadImageFromLink ($link, string $storage = '', string $beforeName = ''): string
+    public static function downloadImageFromLink ($link, string $storage = ''): string
     {
         try {
-            if (empty($beforeName)) { $beforeName = time(); }
             $nameImage = self::getSlugFromLink($link);
             $nameImage = explode('.', $nameImage);
             $imgPath = "{$storage}.{$nameImage[count($nameImage) - 1]}";
@@ -337,7 +335,6 @@ class CrawlerPosts extends Command
                             ]);
                             $imageCreated['url'] = self::downloadImageFromLink($url, "manga/".md5($postDB->id)."/chapter_{$chapter->id}/{$postDB->slug}_{$chapter->id}_{$imageCreated->id}");
                             $imageCreated->save();
-                            dd("Xong 1 chapter");
                         }
                     }
                 }

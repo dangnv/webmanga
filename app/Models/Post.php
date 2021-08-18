@@ -71,9 +71,4 @@ class Post extends Model
 
         return [];
     }
-
-    public function getThumbnailAttribute()
-    {
-        return env('AWS_PUBLIC_LINK').$this->attributes['thumbnail'];
-    }
 }

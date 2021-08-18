@@ -1,7 +1,7 @@
 @foreach($news as $item)
     <a href="{{ route(($is_night_mode ? 'night.' : '').'news.detail', ['slug' => $item->slug]) }}" class="row box-news">
         <div class="image">
-            <img src="{{ $item->thumbnail }}">
+            <img src="{{ route('article.image.get', ['slug' => $item->slug]) }}">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8 comtent-news">
             <div class="media-content">

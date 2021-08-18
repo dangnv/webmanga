@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class CrawlerArticles extends Command
 {
@@ -103,26 +104,22 @@ class CrawlerArticles extends Command
         }
     }
 
-    public static function downloadImageFromLink ($link, string $storage = 'images/news', string $beforeName = '')
+    public static function downloadImageFromLink ($link)
     {
         try {
-            if (empty($beforeName)) { $beforeName = time(); }
             $linkArr = explode('/', $link);
-            $slug = $linkArr[count($linkArr) - 1];
-
-            $nameImage = $beforeName.$slug.'.png';
-            $imgPath = public_path("{$storage}/{$nameImage}");
+            $nameImage = $linkArr[count($linkArr) - 1];
+            $imgPath = "news/{$nameImage}.png";
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $link);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_REFERER, 'https://mangayeh.com');
             $html = curl_exec($ch);
+            $path = Storage::disk('mangamobi')->put($imgPath, $html, 'public');
+            if (!$path) { return $link; }
             curl_close($ch);
-            $savefile = fopen($imgPath, 'w');
-            fwrite($savefile, $html);
-            fclose($savefile);
-            return "/{$storage}/{$nameImage}";
+            return $imgPath;
         } catch (\Exception $exception) {
             Log::error("Exception download image news = {$exception->getMessage()}");
             return $link;

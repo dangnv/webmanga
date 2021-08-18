@@ -1,7 +1,7 @@
 @foreach($posts as $post)
     <a href="{{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $post->slug]) }}" class="row box-on-going">
         <div class="image">
-            <img src="{{ $post->thumbnail }}">
+            <img src="{{ route('post.image.get', ['time' => time(), 'slug' => $post->slug]) }}">
         </div>
         <div class="post-info">
             <div class="media-content">
