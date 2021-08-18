@@ -9,7 +9,7 @@
         <div class="row col-12 box-list-images">
             @foreach($images as $key => $image)
                 <div class="image-chapter">
-                    @php $url = route('image.get', ['post_slug' => $post->slug, 'chapter_slug' => $chapter->slug, 'image_id' => $image->id]) @endphp
+                    @php $url = route('image.get', ['chapter_slug' => $chapter->slug, 'post_slug' => $post->slug, 'image_id' => $image->id]) @endphp
                     <img @if ($key > 3) class="lazy" src="{{ asset('images/loading2.gif') }}" @else src="{{ $url }}" @endif data-src="{{ $url }}" onerror="this.src='{{ asset('images/loading2.gif') }}'"/>
                 </div>
             @endforeach

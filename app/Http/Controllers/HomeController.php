@@ -553,7 +553,7 @@ class HomeController extends BaseController
         ]);
     }
 
-    public function renderImage ($post_slug, $chapter_slug, $image_id, Request $request)
+    public function renderImage ($chapter_slug, $post_slug, $image_id, Request $request)
     {
         try {
             if (Image::where('id', $image_id)
