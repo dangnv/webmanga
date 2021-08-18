@@ -333,7 +333,7 @@ class CrawlerPosts extends Command
                                 'chapter_id' => $chapter->id,
                                 'url' => $url
                             ]);
-                            $imageCreated['url'] = self::downloadImageFromLink($url, "manga/".md5($postDB->id)."/chapter_{$chapter->id}/{$postDB->slug}_{$chapter->id}_{$imageCreated->id}");
+                            $imageCreated['url'] = self::downloadImageFromLink($url, "manga/".$postDB->id."/chapter_{$chapter->id}/{$postDB->slug}_{$chapter->id}_{$imageCreated->id}");
                             $imageCreated->save();
                         }
                     }
