@@ -62,6 +62,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/term', 'HomeController@term')->name('term');
     Route::get('/privacy', 'HomeController@privacy')->name('privacy');
 
+    Route::get('/manga/{post_slug}/{chapter_slug}_{image_id}.png', 'HomeController@renderImage')->name('image.get');
+
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/profile', 'HomeController@profile')->name('profile.index');
 

@@ -2,12 +2,23 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
     use HasFactory;
+    use Sluggable;
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     protected $table = 'posts';
     protected $fillable = ['id', 'thumbnail', 'title', 'slug', 'status', 'is_new', 'alt_names', 'author', 'artist', 'demographic', 'format', 'description', 'views'];
@@ -59,5 +70,10 @@ class Post extends Model
         if (count($post)) { return $post[0]; }
 
         return [];
+    }
+
+    public function getThumbnailAttribute()
+    {
+        return env('AWS_PUBLIC_LINK').$this->attributes['thumbnail'];
     }
 }

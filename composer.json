@@ -6,16 +6,17 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "aws/aws-sdk-php": "^3.20.0",
         "cviebrock/eloquent-sluggable": "^8.0",
         "doctrine/dbal": "^3.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "intervention/image": "^2.6",
         "laravel/framework": "^8.40",
         "laravel/socialite": "^5.2",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
-        "aws/aws-sdk-php": "^3.20.0",
         "league/flysystem": "^1.0.40",
         "league/flysystem-aws-s3-v3": "1.0.29"
     },

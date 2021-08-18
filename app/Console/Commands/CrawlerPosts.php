@@ -108,14 +108,16 @@ class CrawlerPosts extends Command
                                             break;
                                         }
                                         $post = self::getDetailInfo($linkToPostDetail);
-                                        $post['thumbnail'] = self::downloadImageFromLink($a->find('img')[0]->getAttribute('src'), self::getSlugFromLink($linkToPostDetail)); /** Download thumbnail */
+                                        $post['thumbnail'] = $a->find('img')[0]->getAttribute('src');
                                         $post['title'] = $a->getAttribute('title');
-                                        $post['slug'] = self::getSlugFromLink($linkToPostDetail);
                                         $post['is_new'] = count($a->find('em.genres-item-new')) > 0 ? Post::STATUS_NEW : Post::STATUS_NOT_NEW;
                                         $post['views'] = 0;
 
                                         Log::debug("Created post");
-                                        $postCreated = Post::create($post);
+                                        $postCreated = new Post($post);
+                                        $postCreated->save();
+                                        $postCreated['thumbnail'] = self::downloadImageFromLink($a->find('img')[0]->getAttribute('src'), "manga/".md5($postCreated->id)."/{$postCreated->slug}_".time());
+                                        $postCreated->save();
 
                                         /** Create post category */
                                         self::createCategoryPost($postCreated->id, $post['categories']);
@@ -157,8 +159,9 @@ class CrawlerPosts extends Command
     {
         try {
             if (empty($beforeName)) { $beforeName = time(); }
-            $nameImage = $beforeName.self::getSlugFromLink($link);
-            $imgPath = "{$storage}/{$nameImage}";
+            $nameImage = self::getSlugFromLink($link);
+            $nameImage = explode('.', $nameImage);
+            $imgPath = "{$storage}.{$nameImage[count($nameImage) - 1]}";
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $link);
@@ -168,7 +171,7 @@ class CrawlerPosts extends Command
             $path = Storage::disk('mangamobi')->put($imgPath, $html, 'public');
             if (!$path) { return $link; }
             curl_close($ch);
-            return Storage::disk('mangamobi')->url($imgPath);
+            return $imgPath;
         } catch (\Exception $exception) {
             Log::info("Exception download iamge = {$exception->getMessage()}");
             return $link;
@@ -328,10 +331,13 @@ class CrawlerPosts extends Command
                         foreach ($images as $image) {
                             $url = $image->getAttribute('src');
                             $postDB = Post::find($postId);
-                            Image::create([
+                            $imageCreated = Image::create([
                                 'chapter_id' => $chapter->id,
-                                'url' => self::downloadImageFromLink($url, "{$postDB->slug}/{$chapter->slug}")
+                                'url' => $url
                             ]);
+                            $imageCreated['url'] = self::downloadImageFromLink($url, "manga/".md5($postDB->id)."/chapter_{$chapter->id}/{$postDB->slug}_{$chapter->id}_{$imageCreated->id}");
+                            $imageCreated->save();
+                            dd("Xong 1 chapter");
                         }
                     }
                 }

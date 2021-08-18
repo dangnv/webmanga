@@ -21,6 +21,7 @@ use \Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Validator;
 use \Illuminate\Http\RedirectResponse;
 use App\Models\Tag;
+use Intervention\Image\ImageManagerStatic;
 
 class HomeController extends BaseController
 {
@@ -550,5 +551,25 @@ class HomeController extends BaseController
             'is_show_tags' => false,
             'is_show_categories' => false
         ]);
+    }
+
+    public function renderImage ($post_slug, $chapter_slug, $image_id, Request $request)
+    {
+        try {
+            if (Image::where('id', $image_id)
+                    ->whereIn('chapter_id',
+                        Chapter::where('slug', $chapter_slug)
+                            ->whereIn('post_id', Post::where('slug', $post_slug)->pluck('id'))
+                        ->pluck('id'))
+                ->count() > 0) {
+                $image = Image::find($image_id);
+                $url = env('AWS_PUBLIC_LINK').$image->url;
+
+                return ImageManagerStatic::make($url)->response();
+            }
+        } catch (\Exception $exception) {
+            Log::error("Exception renderImage: {$exception->getMessage()}");
+        }
+        return "";
     }
 }
