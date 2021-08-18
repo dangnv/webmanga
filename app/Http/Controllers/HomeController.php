@@ -575,7 +575,7 @@ class HomeController extends BaseController
         return "";
     }
 
-    public function renderImagePost ($time, $post_slug)
+    public function renderImagePost ($post_slug)
     {
         try {
             if (Post::where('slug', $post_slug)->count() > 0) {
