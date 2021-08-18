@@ -29,11 +29,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        if (!env('STOP_CRAWLER_POST')) {
+        /*if (!env('STOP_CRAWLER_POST')) {
             Log::info('start schedule for crawler');
             $schedule->command('crawler:manganato')->dailyAt('0:0')->runInBackground();
         }
-        $schedule->command('crawler:news')->dailyAt('0:0')->runInBackground();
+        $schedule->command('crawler:news')->dailyAt('0:0')->runInBackground();*/
     }
 
     /**
