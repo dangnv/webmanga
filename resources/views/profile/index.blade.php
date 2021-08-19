@@ -32,7 +32,7 @@
             @foreach($bookmark_posts as $item)
                 <div class="bookmark-post">
                     <a href="{{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $item->post->slug]) }}" class="image">
-                        <img src="{{ route('post.image.get', ['slug' => $item->post->thumbnail]) }}" />
+                        <img src="{{ route('post.image.get', ['slug' => $item->post->slug]) }}" />
                     </a>
                     <div class="bookmark-post-info">
                         <a href="{{ route(($is_night_mode ? 'night.' : '').'post.detail', ['slug' => $item->post->slug]) }}"><h3>{!! $item->post->title !!}</h3></a>
