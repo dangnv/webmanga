@@ -114,7 +114,7 @@ class CrawlerPosts extends Command
                                         $post['is_new'] = count($a->find('em.genres-item-new')) > 0 ? Post::STATUS_NEW : Post::STATUS_NOT_NEW;
                                         $post['views'] = 0;
 
-                                        if (empty($post['is_new'])) {
+                                        if (empty($post['title'])) {
                                             Log::error("Title is empty {$linkToPostDetail}");
                                             continue;
                                         }
