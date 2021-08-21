@@ -104,6 +104,7 @@ class CrawlerPosts extends Command
                                                     self::updatePostOld($linkToPostDetail, $postDB->id);
                                                 }
                                             }
+                                            if (env('IS_INIT')) { continue; }
                                             $checkNewPost = false;
                                             break;
                                         }
@@ -112,6 +113,11 @@ class CrawlerPosts extends Command
                                         $post['title'] = $a->getAttribute('title');
                                         $post['is_new'] = count($a->find('em.genres-item-new')) > 0 ? Post::STATUS_NEW : Post::STATUS_NOT_NEW;
                                         $post['views'] = 0;
+
+                                        if (empty($post['is_new'])) {
+                                            Log::error("Title is empty {$linkToPostDetail}");
+                                            continue;
+                                        }
 
                                         Log::debug("Created post");
                                         $postCreated = new Post($post);
@@ -125,7 +131,7 @@ class CrawlerPosts extends Command
                                         /** Create chapters list */
                                         self::createLstChapters($postCreated->id, $post['chapters']);
 
-                                        if (Post::count() >= 10) {
+                                        if (Post::count() >= 300) {
                                             Log::debug("Done 2 post, stop");
                                             return true;
                                         }
