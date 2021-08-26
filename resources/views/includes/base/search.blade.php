@@ -1,13 +1,3 @@
-@if (!$is_night_mode && isset($is_home))
-    <div class="row columns is-mobile text-center">
-        <div class="col-12 column box-night-mode">
-            <a class="turn-night-mode box has-text-centered" href="{{ route('night.home') }}">
-                <img src="{{ asset('images/night-mode.svg') }}" style="width: 32px; height: 32px;">
-                <h2 class="title is-4">{{ trans('text.home.btn_night_mode') }}</h2>
-            </a>
-        </div>
-    </div>
-@endif
 @if (isset($is_show_search) && $is_show_search)
 <div class="row box-search">
     <div class="col-12 col-auto">

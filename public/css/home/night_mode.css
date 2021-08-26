@@ -1,0 +1,50 @@
+.container-night-mode input[type=checkbox] {
+    display: none;
+}
+.container-night-mode .box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60px;
+    height: 30px;
+    background-color: black;
+    transition: all 1s ease;
+    position: relative;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.container-night-mode .box {
+    background-color:black;
+    color:white;
+}
+
+.container-night-mode .box .ball {
+    width: 30px;
+    height: 30px;
+    background-color: grey;
+    transition: all 1s ease;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid black;
+    transform:translatex(0%);
+}
+.container-night-mode .btn-night-mode-change label[for="check"] {
+    padding: .6rem 1rem;
+}
+.container-night-mode .box .scenary {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    transition: all 1s ease;
+    padding: 5px 10px 0px 10px;
+}
+.container-night-mode .box .scenary svg {
+    width: 20px;
+}
+.is_night_mode.container-night-mode .box .ball {
+    transform:translatex(100%);
+}
+.is_night_mode.container-night-mode .box {
+    background-color:white;
+    color:black;
+}

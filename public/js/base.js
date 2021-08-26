@@ -27,3 +27,15 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener("resize", lazyload);
     window.addEventListener("orientationChange", lazyload);
 });
+function checkNightMode(isNight, appUrl) {
+    console.log(isNight, appUrl);
+    let url = window.location.href;
+    if (isNight) {
+        $('.container').removeClass('is_night_mode');
+        window.location.href = url.replace('/night-mode', '');
+    } else {
+        console.log('sangs', appUrl, url.replace(appUrl, appUrl + '/night-mode'));
+        $('.container').addClass('is_night_mode');
+        window.location.href = url.replace(appUrl, appUrl + '/night-mode');
+    }
+}

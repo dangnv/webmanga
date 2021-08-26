@@ -327,6 +327,13 @@ body>.row:last-child {
     font-size: 16px;
 }
 
+#navbarText .container-night-mode {
+    display: none;
+}
+.box-login .container-night-mode {
+    display: block;
+}
+
 @media screen and (min-width: 1408px) {
     body > .row:first-child, body {
         max-width: 1344px;
@@ -367,6 +374,15 @@ body>.row:last-child {
     }
 
     .for-desktop {
+        display: none;
+    }
+    #navbarText .container-night-mode {
+        display: block;
+    }
+    #navbarText .container-night-mode .btn-night-mode-change label[for="check"] {
+        padding-left: 0;
+    }
+    .box-login .container-night-mode {
         display: none;
     }
 }

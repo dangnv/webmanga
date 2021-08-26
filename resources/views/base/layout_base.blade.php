@@ -32,10 +32,12 @@
 
     <title>Manga Web - @yield('title')</title>
 
-    <link rel="icon" href="{{ asset('images/logos/logo') }}" type="image/gif" sizes="16x16">
+    <link rel="icon" href="{{ asset('images/logos/logo.png') }}" type="image/gif" sizes="16x16">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/base.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/home/night_mode.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     @yield('css_files')
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
