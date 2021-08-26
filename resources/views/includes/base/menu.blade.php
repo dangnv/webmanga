@@ -51,6 +51,9 @@
         </div>
         <div class="collapse navbar-collapse box-login">
             <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    @include('includes.base.night_mode', ['is_night_mode' => $is_night_mode])
+                </li>
                 @if (\Illuminate\Support\Facades\Auth::check())
                     <li class="nav-item">
                         <a class="nav-link box-profile"
@@ -66,9 +69,6 @@
                         </form>
                     </li>
                 @else
-                    <li class="nav-item">
-                        @include('includes.base.night_mode', ['is_night_mode' => $is_night_mode])
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#login"
                            onclick="$('#modal_login').modal('show')">{{ trans('text.menu.btn_login') }}</a>
