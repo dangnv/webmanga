@@ -36,7 +36,6 @@ class downloadImage implements ShouldQueue
      */
     public function handle()
     {
-        Log::info("Start download image, image_id = {$this->imageId}; post_id = {$this->postId}");
         try {
             $linkToDownLoad = '';
             $storage = '';
