@@ -26,4 +26,9 @@ class Chapter extends Model
 
         return  [];
     }
+
+    public function post ()
+    {
+        return $this->belongsTo(Post::class, 'post_id', 'id');
+    }
 }

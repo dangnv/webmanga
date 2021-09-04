@@ -2,19 +2,19 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\createCategoryPost;
+use App\Jobs\createLstChapters;
+use App\Jobs\downloadImage;
 use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Image;
 use App\Models\Post;
 use App\Models\PostCategory;
-use App\Models\PostTag;
-use App\Models\Tag;
 use Carbon\Carbon;
-use Faker\Provider\File;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Constant\UtilsHelp;
 
 class CrawlerPosts extends Command
 {
@@ -62,10 +62,8 @@ class CrawlerPosts extends Command
                         $pageLast = (int)str_replace(')', '', str_replace('LAST(', '', $elLastPage[0]->innertext));
                         if ($pageLast > 1) {
                             $checkNewPost = true;
-                            $maxPageAllow = ceil(env('MAX_NEW_POST', 100) / 24);
-                            $maxPageAllow = ($maxPageAllow < $pageLast) ? $maxPageAllow : $pageLast;
-                            Log::debug("Allow crawler posts = {$maxPageAllow}");
-                            for ($page = 1; $page <= $maxPageAllow; $page++) {
+                            Log::debug("Allow crawler posts = {$pageLast}");
+                            for ($page = 1; $page <= $pageLast; $page++) {
                                 if (!$checkNewPost) { break; }
                                 if ($page != 1) {
                                     $html = file_get_html("{$link}/{$page}");
@@ -77,7 +75,7 @@ class CrawlerPosts extends Command
                                     if (count($categoriesHtml) > (Category::count() + 1)) {
                                         foreach ($categoriesHtml as $key => $category) {
                                             if ($key != 0) {
-                                                $slugCate = self::getSlugFromLink($category->getAttribute('href'));
+                                                $slugCate = UtilsHelp::getSlugFromLink($category->getAttribute('href'));
                                                 $nameCate = str_replace(' Manga', '', $category->getAttribute('title'));
                                                 $rsCreateCate = self::saveNewCategory($slugCate, $nameCate, true);
                                             }
@@ -90,23 +88,38 @@ class CrawlerPosts extends Command
                                     $boxPosts = $html->find('div.content-genres-item');
 
                                     foreach ($boxPosts as $post) {
+                                        if (Post::count() >= 650) {
+                                            Log::debug('Created 650 posts');
+                                            $checkNewPost = false;
+                                            break;
+                                        }
+                                        $freeStorage = UtilsHelp::checkStorage();
+                                        if ($freeStorage <= 10) {
+                                            Log::warning("Storage limit, free {$freeStorage}, stop at ".Post::count());
+                                            $checkNewPost = false;
+                                            break;
+                                        }
+
                                         Log::debug("number of posts = ".Post::count());
                                         if (!$post->find('a.genres-item-img')) { continue; }
                                         $a = $post->find('a.genres-item-img')[0];
                                         if (!$a->find('img')) { continue; }
 
                                         $linkToPostDetail = $a->getAttribute('href');
-                                        if (Post::select('id')->where('slug', self::getSlugFromLink($linkToPostDetail))->count() > 0) {
+                                        $slugFromLinkPost = UtilsHelp::getSlugFromLink($linkToPostDetail);
+                                        if (Post::select('id')->where('slug', $slugFromLinkPost)->count() > 0) {
                                             if ($post->find('span.genres-item-time')) {
                                                 $timeLastUpdate = $post->find('span.genres-item-time')[0]->innertext;
-                                                if (Carbon::create($timeLastUpdate) > Carbon::now()->format('Y-m-d')) {
-                                                    $postDB = Post::getPostBySlug(self::getSlugFromLink($linkToPostDetail));
+                                                if (Carbon::create($timeLastUpdate) > Carbon::now()->format('Y-m-d') ||
+                                                in_array($slugFromLinkPost, ['manga-fn983148', 'manga-cm979547', 'manga-fd982360'])) {
+                                                    $postDB = Post::getPostBySlug($slugFromLinkPost);
                                                     self::updatePostOld($linkToPostDetail, $postDB->id);
                                                 }
                                             }
-                                            if (env('IS_INIT')) { continue; }
+                                            continue;
+                                            /*if (env('IS_INIT')) { continue; }
                                             $checkNewPost = false;
-                                            break;
+                                            break;*/
                                         }
                                         $post = self::getDetailInfo($linkToPostDetail);
                                         $post['thumbnail'] = $a->find('img')[0]->getAttribute('src');
@@ -122,19 +135,13 @@ class CrawlerPosts extends Command
                                         Log::debug("Created post");
                                         $postCreated = new Post($post);
                                         $postCreated->save();
-                                        $postCreated['thumbnail'] = self::downloadImageFromLink($a->find('img')[0]->getAttribute('src'), "manga/".$postCreated->id."/{$postCreated->slug}_".time());
-                                        $postCreated->save();
+                                        downloadImage::dispatch(null, $postCreated->id)->onQueue('download');
 
                                         /** Create post category */
-                                        self::createCategoryPost($postCreated->id, $post['categories']);
+                                        createCategoryPost::dispatch($postCreated->id, $post['categories'])->onQueue('cate_post');
 
                                         /** Create chapters list */
-                                        self::createLstChapters($postCreated->id, $post['chapters']);
-
-                                        if (Post::count() >= 300) {
-                                            Log::debug("Done 2 post, stop");
-                                            return true;
-                                        }
+                                        createLstChapters::dispatch($postCreated->id, $post['chapters'])->onQueue('chapter');
                                     }
                                 }
                             }
@@ -146,40 +153,6 @@ class CrawlerPosts extends Command
             }
         }
         Log::info("End job crawler data");
-    }
-
-    public static function getSlugFromLink ($link)
-    {
-        $linkArr = explode('/', $link);
-        $slugArr = explode('?', $linkArr[count($linkArr) - 1]);
-        return $slugArr[0];
-    }
-
-    /**
-     * @param $link
-     * @param string $storage
-     * @return string
-     */
-    public static function downloadImageFromLink ($link, string $storage = ''): string
-    {
-        try {
-            $nameImage = self::getSlugFromLink($link);
-            $nameImage = explode('.', $nameImage);
-            $imgPath = "{$storage}.{$nameImage[count($nameImage) - 1]}";
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $link);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_REFERER, 'https://mangakakalot.com/');
-            $html = curl_exec($ch);
-            $path = Storage::disk('mangamobi')->put($imgPath, $html, 'public');
-            if (!$path) { return $link; }
-            curl_close($ch);
-            return $imgPath;
-        } catch (\Exception $exception) {
-            Log::info("Exception download iamge = {$exception->getMessage()}");
-            return $link;
-        }
     }
 
     /**
@@ -243,7 +216,7 @@ class CrawlerPosts extends Command
                     $chapterA = $chapterBox->find('a')[0];
                     $chapter['title'] = $chapterA->innertext;
                     $chapter['link'] = $chapterA->getAttribute('href');
-                    $chapter['slug'] = self::getSlugFromLink($chapter['link']);
+                    $chapter['slug'] = UtilsHelp::getSlugFromLink($chapter['link']);
                     if ($chapterBox->find('span.chapter-time')) {
                         $chapter['published_date'] = Carbon::create($chapterBox->find('span.chapter-time')[0]->getAttribute('title'));
                         if ($chapter['published_date']) { $chapter['published_date'] = $chapter['published_date']->format('Y-m-d H:i:m'); }
@@ -265,7 +238,7 @@ class CrawlerPosts extends Command
         $categories = [];
         foreach ($arrElements as $categoryName) {
             $name = $categoryName->innertext;
-            $slug = self::getSlugFromLink($categoryName->getAttribute('href'));
+            $slug = UtilsHelp::getSlugFromLink($categoryName->getAttribute('href'));
 
             $cateId = self::saveNewCategory($slug, $name);
             if ($cateId > 0) {
@@ -306,51 +279,6 @@ class CrawlerPosts extends Command
         }
     }
 
-    public static function createCategoryPost ($postId, $cateIds) {
-        try {
-            foreach ($cateIds as $cateId) {
-                PostCategory::create([
-                    'category_id' => $cateId,
-                    'post_id' => $postId,
-                ]);
-            }
-        } catch (\Exception $exception) {
-            Log::info("Exception create post category: {$exception->getMessage()}");
-        }
-    }
-
-    /**
-     * @param $postId
-     * @param $chapters
-     */
-    public static function createLstChapters ($postId, $chapters) {
-        foreach ($chapters as $data) {
-            try {
-                $data['post_id'] = $postId;
-                $chapter = Chapter::create($data);
-                if ($chapter) {
-                    $html = file_get_html($data['link']);
-                    if ($html->find('.container-chapter-reader')) {
-                        $images = $html->find('.container-chapter-reader')[0]->find('img');
-                        foreach ($images as $image) {
-                            $url = $image->getAttribute('src');
-                            $postDB = Post::find($postId);
-                            $imageCreated = Image::create([
-                                'chapter_id' => $chapter->id,
-                                'url' => $url
-                            ]);
-                            $imageCreated['url'] = self::downloadImageFromLink($url, "manga/".$postDB->id."/chapter_{$chapter->id}/{$postDB->slug}_{$chapter->id}_{$imageCreated->id}");
-                            $imageCreated->save();
-                        }
-                    }
-                }
-            } catch (\Exception $exception) {
-                Log::info("Exception for create chapters: {$exception->getMessage()}");
-                continue;
-            }
-        }
-    }
-
     public static function updatePostOld ($linkDetail, $postID) {
         $html = file_get_html($linkDetail);
 
@@ -363,20 +291,15 @@ class CrawlerPosts extends Command
                     $chapterA = $chapterBox->find('a')[0];
                     $chapter['title'] = $chapterA->innertext;
                     $chapter['link'] = $chapterA->getAttribute('href');
-                    $chapter['slug'] = self::getSlugFromLink($chapter['link']);
+                    $chapter['slug'] = UtilsHelp::getSlugFromLink($chapter['link']);
                     if ($chapterBox->find('span.chapter-time')) {
                         $chapter['published_date'] = Carbon::create($chapterBox->find('span.chapter-time')[0]->getAttribute('title'));
                         if ($chapter['published_date']) { $chapter['published_date'] = $chapter['published_date']->format('Y-m-d H:i:m'); }
                     }
-                    $chapterCheck = Chapter::getChapterBySlug($chapter['slug'], $postID);
-                    if (empty($chapterCheck)) {
-                        break;
-                    }
                     $lstNewChapters[] = $chapter;
                 }
             }
-
-            self::createLstChapters($postID, $lstNewChapters);
+            createLstChapters::dispatch($postID, $lstNewChapters)->onQueue('chapter');
         }
     }
 }

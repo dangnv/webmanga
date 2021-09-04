@@ -11,4 +11,8 @@ class Image extends Model
 
     protected $table = 'images';
     protected $fillable = ['url', 'chapter_id'];
+
+    public function chapter () {
+        return $this->belongsTo(Chapter::class, 'chapter_id', 'id');
+    }
 }
