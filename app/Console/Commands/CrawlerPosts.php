@@ -111,7 +111,7 @@ class CrawlerPosts extends Command
                                             if ($post->find('span.genres-item-time')) {
                                                 $timeLastUpdate = $post->find('span.genres-item-time')[0]->innertext;
                                                 if (Carbon::create($timeLastUpdate) > Carbon::now()->format('Y-m-d') ||
-                                                in_array($slugFromLinkPost, ['manga-fn983148', 'manga-cm979547', 'manga-fd982360', 'manga-pp951450'])) {
+                                                in_array($slugFromLinkPost, ['manga-fn983148', 'manga-cm979547', 'manga-fd982360', 'manga-pp951450', 'manga-ln989270'])) {
                                                     $postDB = Post::where('title', $a->getAttribute('title'))->first();
                                                     self::updatePostOld($linkToPostDetail, $postDB->id);
                                                 }
