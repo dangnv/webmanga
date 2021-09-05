@@ -107,12 +107,12 @@ class CrawlerPosts extends Command
 
                                         $linkToPostDetail = $a->getAttribute('href');
                                         $slugFromLinkPost = UtilsHelp::getSlugFromLink($linkToPostDetail);
-                                        if (Post::select('id')->where('slug', $slugFromLinkPost)->count() > 0) {
+                                        if (Post::select('id')->where('title', $a->getAttribute('title'))->count() > 0) {
                                             if ($post->find('span.genres-item-time')) {
                                                 $timeLastUpdate = $post->find('span.genres-item-time')[0]->innertext;
                                                 if (Carbon::create($timeLastUpdate) > Carbon::now()->format('Y-m-d') ||
                                                 in_array($slugFromLinkPost, ['manga-fn983148', 'manga-cm979547', 'manga-fd982360'])) {
-                                                    $postDB = Post::getPostBySlug($slugFromLinkPost);
+                                                    $postDB = Post::where('title', $a->getAttribute('title'))->first();
                                                     self::updatePostOld($linkToPostDetail, $postDB->id);
                                                 }
                                             }
