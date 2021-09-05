@@ -39,7 +39,7 @@ class createLstChapters implements ShouldQueue
         foreach ($this->lstChapters as $data) {
             Log::debug('create chapters');
             try {
-                $chapterCheck = Chapter::getChapterBySlug($data['slug'], $this->postId);
+                $chapterCheck = Chapter::where('title', $data['title'])->where('post_id', $this->postId)->first();
                 if (!empty($chapterCheck)) {
                     continue;
                 }
