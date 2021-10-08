@@ -30,11 +30,14 @@ document.addEventListener("DOMContentLoaded", function() {
 function checkNightMode(isNight, appUrl) {
     console.log(isNight, appUrl);
     let url = window.location.href;
+    let textBefore = '';
+    if (url.includes('public/')) {
+        textBefore = '/public'
+    }
     if (isNight) {
         $('.container').removeClass('is_night_mode');
-        window.location.href = url.replace('/night-mode', '');
+        window.location.href = url.replace(`${textBefore}/night-mode`, '');
     } else {
-        console.log('sangs', appUrl, url.replace(appUrl, appUrl + '/night-mode'));
         $('.container').addClass('is_night_mode');
         window.location.href = url.replace(appUrl, appUrl + '/night-mode');
     }
