@@ -1,6 +1,6 @@
 <div class="container-night-mode {{ @$is_night_mode ? 'is_night_mode' : '' }}">
     <div class="btn-night-mode-change">
-        <input type="checkbox" name="check" id="check" onclick="checkNightMode('{{ !empty($is_night_mode) }}', '{{ env('APP_URL') }}')">
+        <input type="checkbox" name="check" id="check" onclick="checkNightMode('{{ !empty($is_night_mode) }}', '{{ env('APP_URL') }}', '{{ env('APP_URL_NIGHT') }}')">
         <label for="check">
             <div class="box">
 

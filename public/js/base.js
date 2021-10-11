@@ -27,8 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener("resize", lazyload);
     window.addEventListener("orientationChange", lazyload);
 });
-function checkNightMode(isNight, appUrl) {
-    console.log(isNight, appUrl);
+function checkNightMode(isNight, appUrl, appReplace) {
     let url = window.location.href;
     let textBefore = '';
     if (url.includes('public/')) {
@@ -36,9 +35,9 @@ function checkNightMode(isNight, appUrl) {
     }
     if (isNight) {
         $('.container').removeClass('is_night_mode');
-        window.location.href = url.replace(`${textBefore}/night-mode`, '');
+        window.location.href = url.replace(appReplace, appUrl);
     } else {
         $('.container').addClass('is_night_mode');
-        window.location.href = url.replace(appUrl, appUrl + '/night-mode');
+        window.location.href = url.replace(appUrl, appReplace);
     }
 }
