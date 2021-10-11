@@ -1,7 +1,7 @@
 <div class="col-12" id="menu">
     <nav class="navbar navbar-expand-sm {{ $is_night_mode ? 'navbar-dark bg-dark' : 'navbar-light bg-light' }}">
         <a class="navbar-brand" href="{{ route(($is_night_mode ? 'night.' : '').'home') }}">
-            <img src="{{ asset('images/logos/logo.png') }}" width="16px" height="16px">
+            <img src="{{ asset('image/icon/apple-icon-180x180.png') }}" style="height: 36px; width: auto">
             {{ env('APP_TITLE_PAGE') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"

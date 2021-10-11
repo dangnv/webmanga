@@ -84,7 +84,7 @@ class CrawlerArticles extends Command
                                             'public_at' => Carbon::create($publicAt)->format('Y-m-d'),
                                             'slug' => $slug,
                                             'description' => $desc,
-                                            'content' => str_replace('data-src', 'src', str_replace('src="/images/default.gif"', '', $content))
+                                            'content' => str_replace('data-src', 'src', str_replace('src="/image/default.gif"', '', $content))
                                         ]);
                                     }
                                 } catch (\Exception $exception) {
