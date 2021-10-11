@@ -10,7 +10,7 @@
                    aria-describedby="search-btn">
             <div class="input-group-append">
                 <button type="button" class="input-group-text" id="search-btn" onclick="window.location.href=$('#ipt-search-manga').data('url')+$('#ipt-search-manga').val()">
-                    <img src="{{ asset('images/logos/search_white_24dp.svg') }}">
+                    <img src="{{ asset('image/search_white_24dp.svg') }}">
                     {{ trans('text.global.btn_search') }}
                 </button>
             </div>
