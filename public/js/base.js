@@ -35,9 +35,9 @@ function checkNightMode(isNight, appUrl, appReplace) {
     }
     if (isNight) {
         $('.container').removeClass('is_night_mode');
-        window.location.href = url.replace(appReplace, appUrl);
+        window.location.href = url.replace(textBefore, '').replace(appReplace, appUrl);
     } else {
         $('.container').addClass('is_night_mode');
-        window.location.href = url.replace(appUrl, appReplace);
+        window.location.href = url.replace(textBefore, '').replace(appUrl, appReplace);
     }
 }
