@@ -1,3 +1,10 @@
+$(function () {
+    if (localStorage.getItem('night-mode') && localStorage.getItem('night-mode') == 'on') {
+        turnOnNight();
+    } else {
+        turnOffNight();
+    }
+})
 document.addEventListener("DOMContentLoaded", function() {
     var lazyloadImages = document.querySelectorAll("img.lazy");
     var lazyloadThrottleTimeout;
@@ -27,17 +34,32 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener("resize", lazyload);
     window.addEventListener("orientationChange", lazyload);
 });
-function checkNightMode(isNight, appUrl, appReplace) {
-    let url = window.location.href;
-    let textBefore = '';
-    if (url.includes('public/')) {
-        textBefore = '/public'
-    }
-    if (isNight) {
-        $('.container').removeClass('is_night_mode');
-        window.location.href = url.replace(textBefore, '').replace(appReplace, appUrl);
+function checkNightMode() {
+    if (localStorage.getItem('night-mode') && localStorage.getItem('night-mode') == 'on') {
+        localStorage.setItem('night-mode', 'off');
+        turnOffNight();
     } else {
-        $('.container').addClass('is_night_mode');
-        window.location.href = url.replace(textBefore, '').replace(appUrl, appReplace);
+        localStorage.setItem('night-mode', 'on');
+        turnOnNight();
     }
+}
+function turnOnNight () {
+    $('body').addClass('night-mode');
+    $('.container-night-mode').addClass('is_night_mode');
+    $('#menu .navbar-expand-sm').addClass('navbar-dark');
+    $('#menu .navbar-expand-sm').addClass('bg-dark');
+    $('.btn-light').addClass('btn-dark');
+    $('.btn-dark').removeClass('btn-light');
+    $('#menu .navbar-expand-sm').removeClass('navbar-light');
+    $('#menu .navbar-expand-sm').removeClass('bg-light');
+}
+function turnOffNight () {
+    $('body').removeClass('night-mode');
+    $('.container-night-mode').removeClass('is_night_mode');
+    $('#menu .navbar-expand-sm').removeClass('navbar-dark');
+    $('#menu .navbar-expand-sm').removeClass('bg-dark');
+    $('#menu .navbar-expand-sm').addClass('navbar-light');
+    $('#menu .navbar-expand-sm').addClass('bg-light');
+    $('.btn-dark').addClass('btn-light');
+    $('.btn-light').removeClass('btn-dark');
 }

@@ -63,7 +63,7 @@
     <script src="{{ asset('js/base.js') }}?v={{ time() }}"></script>
     @yield('js_files')
 </head>
-<body @if ($is_night_mode) class="night-mode" @endif>
+<body>
 <div class="row">
     @include('includes.base.menu')
 </div>
