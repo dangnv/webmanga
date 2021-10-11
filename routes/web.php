@@ -14,31 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
-    Route::group(['prefix' => 'night-mode'], function () {
-        Route::get('/', 'HomeController@index')->name('night.home');
-
-        Route::get('/tag', 'HomeController@postByTags')->name('night.post.by.tag');
-        Route::get('/search', 'HomeController@search')->name('night.post.search');
-        Route::get('/latest', 'HomeController@latest')->name('night.post.latest');
-        Route::get('/completed', 'HomeController@completed')->name('night.post.completed');
-        Route::get('/newest', 'HomeController@newest')->name('night.post.newest');
-        Route::get('/all', 'HomeController@all')->name('night.post.all');
-        Route::get('/genre/{slug}', 'HomeController@postByCategory')->name('night.post.category');
-        Route::get('/manga/{slug}', 'HomeController@detailPost')->name('night.post.detail');
-        Route::get('/chapter/{post_slug}/{chapter_slug}', 'HomeController@detailChapter')->name('night.chapters.detail');
-
-        Route::get('/news', 'HomeController@news')->name('night.news.index');
-        Route::get('/news/{slug}', 'HomeController@newsDetail')->name('night.news.detail');
-
-        Route::get('/about', 'HomeController@about')->name('night.about');
-        Route::get('/term', 'HomeController@term')->name('night.term');
-        Route::get('/privacy', 'HomeController@privacy')->name('night.privacy');
-
-        Route::group(['middleware' => 'auth'], function () {
-            Route::get('/profile', 'HomeController@profile')->name('night.profile.index');
-        });
-    });
-
     /*light*/
     Route::get('/', 'HomeController@index')->name('home');
 
