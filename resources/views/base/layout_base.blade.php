@@ -62,6 +62,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{{ asset('js/base.js') }}?v={{ time() }}"></script>
     @yield('js_files')
+    @include('.thirdparty.__googleanalytics')
 </head>
 <body>
 <div class="row">
