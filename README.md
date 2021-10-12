@@ -7,6 +7,11 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Các lệnh liên quan tool crawler
+- Kiểm tra các thao tác đang được lên lịch: crontab -l
+- Kiểm tra tác vụ crawler đang chạy: ps -aux && tìm kiếm tác vụ (php artisan crawler:manganato), có kết quả = crawler đang chạy
+- Xem log tại file: storage/logs/laralve-yyyy-mm-dd.log (tên file log của ngày muốn xem log)
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
